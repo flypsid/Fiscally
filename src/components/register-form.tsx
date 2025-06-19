@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { signUpEmailAction } from "@/actions/sign-up-email.action";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { SignInOauthButton } from "./sign-in-oauth-button";
 
 export const RegisterForm = () => {
   const [isPending, setIsPending] = useState(false);
@@ -149,7 +150,18 @@ export const RegisterForm = () => {
             t("submit")
           )}
         </Button>
-        <div className="text-center text-sm mt-2">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+          <hr className="border-dashed" />
+          <span className="text-muted-foreground text-xs">
+            {t("orContinueWith")}
+          </span>
+          <hr className="border-dashed" />
+        </div>
+        <div className="grid grid-cols-1 gap-3">
+          <SignInOauthButton provider="google" signUp />
+          <SignInOauthButton provider="github" signUp />
+        </div>
+        <div className="text-center text-sm ">
           {t("alreadyAccount")}{" "}
           <Link href="/auth/login" className="underline">
             {t("login")}

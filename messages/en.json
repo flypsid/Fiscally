@@ -5,7 +5,7 @@
     "contact": "Contact",
     "home": "Home",
     "heroTitle": "Next.js Multilang Starter",
-    "heroDescription": "A modern, multilingual Next.js boilerplate with internationalization, Zod error translation, and BetterAuth integration, Prisma for database management, and Resend for email. Easily build secure, production-ready applications in multiple languages.",
+    "heroDescription": "A modern, multilingual Next.js boilerplate with internationalization, Zod error translation, and BetterAuth integration, Prisma for database management, and Nodemailer. Easily build secure, production-ready applications in multiple languages.",
     "register": "Get started",
     "learnMore": "Learn more",
     "loginButton": "Sign in"
@@ -60,7 +60,8 @@
     "alreadyAccount": "Already have an account?",
     "login": "Login",
     "registerSuccess": "Registration successful!",
-    "passwordsDontMatch": "Passwords do not match."
+    "passwordsDontMatch": "Passwords do not match.",
+    "orContinueWith": "Or continue with"
   },
   "LoginForm": {
     "title": "Log in",
@@ -76,7 +77,8 @@
     "noAccount": "Don't have an account?",
     "register": "Register",
     "invalidCredentials": "Invalid email or password.",
-    "loginSuccess": "Connection successful!"
+    "loginSuccess": "Connection successful!",
+    "orContinueWith": "Or continue with"
   },
   "ProfilePage": {
     "title": "Profile",
@@ -88,7 +90,5 @@
   },
   "ReturnButton": {
     "labelhome": "Back to Home"
-  },
-  "loginSuccess": "Login successful!",
-  "registerSuccess": "Registration complete!"
+  }
 }

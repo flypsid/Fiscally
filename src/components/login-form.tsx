@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import { signInEmailAction } from "@/actions/sign-in-email.action";
+import { SignInOauthButton } from "./sign-in-oauth-button";
 
 export const LoginForm = () => {
   const t = useTranslations("LoginForm");
@@ -128,7 +129,19 @@ export const LoginForm = () => {
           )}
         </Button>
 
-        <div className="mb-2 text-center text-sm text-muted-foreground">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+          <hr className="border-dashed" />
+          <span className="text-muted-foreground text-xs">
+            {t("orContinueWith")}
+          </span>
+          <hr className="border-dashed" />
+        </div>
+        <div className="grid grid-cols-1 gap-3">
+          <SignInOauthButton provider="google" />
+          <SignInOauthButton provider="github" />
+        </div>
+
+        <div className="text-center text-sm text-muted-foreground">
           {t("noAccount")}{" "}
           <Link href="/auth/register" className="underline hover:text-primary">
             {t("register")}
