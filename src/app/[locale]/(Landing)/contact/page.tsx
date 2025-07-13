@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { getContactSchema } from "./contactSchema";
+import { getContactSchema } from "@/app/schema/contactSchema";
 
 // Définition d'un type pour les erreurs de champ
 interface FieldErrors {
@@ -15,7 +15,7 @@ interface FieldErrors {
   message?: string;
 }
 
-const Contact = () => {
+const ContactPage = () => {
   const t = useTranslations("ContactPage");
 
   // Schéma de validation Zod avec messages d'erreur traduits
@@ -46,7 +46,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-background border border-muted rounded-2xl shadow-xl p-8">
+    <div className="max-w-md mx-auto my-12 bg-background border border-muted rounded-2xl shadow-xl p-8">
       <h1 className="text-3xl font-bold mb-2 tracking-tight text-foreground">
         {t("title")}
       </h1>
@@ -155,4 +155,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactPage;

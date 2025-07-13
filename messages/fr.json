@@ -4,15 +4,10 @@
     "about": "À propos",
     "contact": "Contact",
     "home": "Accueil",
-    "heroTitle": "Next.js Multilang Starter",
-    "heroDescription": "Une boilerplate Next.js multilingue moderne avec internationalisation, traduction des erreurs Zod et intégration BetterAuth, Prisma pour gerer les Database, Nodemailer. Créez facilement des applications sécurisées et prêtes pour la production dans plusieurs langues.",
-    "register": "Commencer",
-    "learnMore": "En savoir plus",
-    "loginButton": "Se connecter"
-  },
-  "AboutPage": {
-    "title": "À propos de nous",
-    "description": "Ceci est la page à propos. Découvrez notre projet ici."
+    "heroTitle": "Fiscally : Plateforme de gestion financière IA",
+    "heroDescription": "Plateforme de gestion financière Next.js multilingue",
+    "dashboardButton": "Tableau de bord",
+    "contactButton": "Contactez-nous"
   },
   "ContactPage": {
     "title": "Contactez-nous",
@@ -41,54 +36,30 @@
       }
     }
   },
-  "RegisterForm": {
-    "title": "Inscription",
-    "description": "Créez votre compte pour accéder à toutes les fonctionnalités.",
-    "name": "Nom",
-    "namePlaceholder": "Votre nom",
-    "nameRequired": "Le nom est requis.",
-    "email": "E-mail",
-    "emailPlaceholder": "Votre adresse e-mail",
-    "emailRequired": "L'e-mail est requis.",
-    "password": "Mot de passe",
-    "passwordPlaceholder": "Votre mot de passe",
-    "passwordRequired": "Le mot de passe est requis.",
-    "confirmPassword": "Confirmez le mot de passe",
-    "submit": "S'inscrire",
-    "userExists": "Cet email est déjà utilisé.",
-    "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères.",
-    "alreadyAccount": "Vous avez déjà un compte ?",
-    "login": "Se connecter",
-    "registerSuccess": "Inscription terminée !",
-    "passwordsDontMatch": "Les mots de passe ne correspondent pas.",
-    "orContinueWith": "Ou continuer avec"
+  "Dashboard": {
+    "body": {
+      "title": "Tableau de bord"
+    },
+    "nav": {
+      "dashboard": "Tableau de bord"
+    },
+    "usermenu": {
+      "myAccount": "Mon compte",
+      "profile": "Profil",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "noNotifications": "Aucune notification",
+      "newMessage": "Nouveau message reçu",
+      "updateAvailable": "Mise à jour disponible"
+    }
   },
-  "LoginForm": {
-    "title": "Se connecter",
-    "description": "Veuillez vous connecter pour continuer.",
-    "email": "E-mail",
-    "emailPlaceholder": "Votre adresse e-mail",
-    "emailRequired": "L'e-mail est requis.",
-    "password": "Mot de passe",
-    "passwordPlaceholder": "Votre mot de passe",
-    "passwordRequired": "Le mot de passe est requis.",
-    "submit": "Se connecter",
-    "forgotPassword": "Mot de passe oublié ?",
-    "noAccount": "Vous n'avez pas de compte ?",
-    "register": "S'inscrire",
-    "invalidCredentials": "Email ou mot de passe invalide.",
-    "loginSuccess": "Connexion réussie !",
-    "orContinueWith": "Ou continuer avec"
-  },
-  "ProfilePage": {
-    "title": "Profil",
-    "description": "Ceci est la page de profil. Vous pouvez voir et modifier vos informations de profil ici."
-  },
-  "SignOutButton": {
-    "signout": "Se déconnecter",
-    "loggedOut": "Vous avez été déconnecté. À bientôt !"
-  },
-  "ReturnButton": {
-    "labelhome": "Retour à l'accueil"
+
+  "AboutPage": {
+    "title": "À propos de nous",
+    "paragraph1": "Bienvenue sur notre plateforme ! Nous nous engageons à vous fournir les meilleurs outils de gestion financière pour vous aider à atteindre vos objectifs.",
+    "paragraph2": "Notre mission est de simplifier les concepts financiers complexes et de les rendre accessibles à tous, vous permettant de prendre des décisions éclairées concernant votre argent."
   }
 }

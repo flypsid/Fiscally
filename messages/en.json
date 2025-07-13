@@ -4,16 +4,12 @@
     "about": "About",
     "contact": "Contact",
     "home": "Home",
-    "heroTitle": "Next.js Multilang Starter",
-    "heroDescription": "A modern, multilingual Next.js boilerplate with internationalization, Zod error translation, and BetterAuth integration, Prisma for database management, and Nodemailer. Easily build secure, production-ready applications in multiple languages.",
-    "register": "Get started",
-    "learnMore": "Learn more",
-    "loginButton": "Sign in"
+    "heroTitle": "Fiscally: AI Finance Management Platform",
+    "heroDescription": "Ai Next.js Multilingual Financial Management Platform",
+    "dashboardButton": "Dashboard",
+    "contactButton": "Contact Us"
   },
-  "AboutPage": {
-    "title": "About us",
-    "description": "This is the about page. Learn more about our project here."
-  },
+
   "ContactPage": {
     "title": "Contact us",
     "description": "Feel free to reach out using the form below.",
@@ -41,54 +37,31 @@
       }
     }
   },
-  "RegisterForm": {
-    "title": "Register",
-    "description": "Create your account to access all features.",
-    "name": "Name",
-    "namePlaceholder": "Your name",
-    "nameRequired": "Name is required.",
-    "email": "Email",
-    "emailPlaceholder": "Your email address",
-    "emailRequired": "Email is required.",
-    "password": "Password",
-    "passwordPlaceholder": "Your password",
-    "passwordRequired": "Password is required.",
-    "confirmPassword": "Confirm password",
-    "submit": "Register",
-    "userExists": "This email is already in use.",
-    "passwordTooShort": "Password must be at least 6 characters long.",
-    "alreadyAccount": "Already have an account?",
-    "login": "Login",
-    "registerSuccess": "Registration successful!",
-    "passwordsDontMatch": "Passwords do not match.",
-    "orContinueWith": "Or continue with"
+
+  "Dashboard": {
+    "body": {
+      "title": "Dashboard"
+    },
+    "nav": {
+      "dashboard": "Dashboard"
+    },
+    "usermenu": {
+      "myAccount": "My Account",
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "noNotifications": "No notifications",
+      "newMessage": "New message received",
+      "updateAvailable": "Update available"
+    }
   },
-  "LoginForm": {
-    "title": "Log in",
-    "description": "Please log in to continue.",
-    "email": "Email",
-    "emailPlaceholder": "Your email address",
-    "emailRequired": "Email is required.",
-    "password": "Password",
-    "passwordPlaceholder": "Your password",
-    "passwordRequired": "Password is required.",
-    "submit": "Log in",
-    "forgotPassword": "Forgot password?",
-    "noAccount": "Don't have an account?",
-    "register": "Register",
-    "invalidCredentials": "Invalid email or password.",
-    "loginSuccess": "Connection successful!",
-    "orContinueWith": "Or continue with"
-  },
-  "ProfilePage": {
-    "title": "Profile",
-    "description": "This is the profile page. You can view and edit your profile information here."
-  },
-  "SignOutButton": {
-    "signout": "Sign out",
-    "loggedOut": "You’ve logged out. See you soon!"
-  },
-  "ReturnButton": {
-    "labelhome": "Back to Home"
+
+  "AboutPage": {
+    "title": "About Us",
+    "paragraph1": "Welcome to our platform! We are dedicated to providing you with the best financial management tools to help you achieve your goals.",
+    "paragraph2": "Our mission is to simplify complex financial concepts and make them accessible to everyone, empowering you to make informed decisions about your money."
   }
 }

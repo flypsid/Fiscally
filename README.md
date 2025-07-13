@@ -1,43 +1,35 @@
-# Next.js Multilang Starter
+# Fiscally: AI Finance Management Platform
 
-A starter template for building multilingual applications with Next.js. This project integrates internationalization (i18n), Zod error translation, and BetterAuth for authentication.
-
-## Features
-
-- **Multiple Languages (i18n):** Easily add and manage translations for your app.
-- **Zod Error Translation:** Automatically translate validation errors from Zod schemas.
-- **BetterAuth Integration:** Secure authentication with a simple API.
+Fiscally is an AI-powered finance management platform for generating invoices, quotes, and managing budgets and finances. Built with Next.js, it features multilingual support, Zod error translation, and BetterAuth for secure authentication.
 
 ## Getting Started
 
-1. **Clone the repository:**
+First, run the development server:
 
-   ```bash
-   git clone https://github.com/flypsid/multilang.git
-   cd multilang
-   ```
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-2. **Install dependencies:**
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-   ```bash
-   npm install
-   ```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-3. **Configure languages:**
+## Features
 
-   - Edit the `i18n` configuration to add your supported languages and translations.
+- **AI-powered Finance Management**: Automate your finances, budgeting, and reporting.
+- **Invoice & Quote Generation**: Easily create and manage invoices and quotes.
+- **Multilingual Support (i18n)**: Built-in internationalization for global users.
+- **Zod Error Translation**: Automatic translation of validation errors.
+- **BetterAuth Integration**: Secure authentication for your users.
 
-4. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
+## Learn More
 
-## Usage
+To learn more about Fiscally or contribute, visit the [GitHub repository](https://github.com/flypsid/Fiscally).
 
-- Add new translations in the `/messages` directory.
-- Use Zod for schema validation and get translated error messages automatically.
-- Set up authentication flows using BetterAuth.
-
-## License
-
-MIT
+For more on the Next.js framework, see the [Next.js Documentation](https://nextjs.org/docs).

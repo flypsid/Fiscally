@@ -1,11 +1,12 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import LanguageSwitcher from "./LanguageSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const t = useTranslations("HomePage");
   return (
-    <nav className="w-full bg-background border-b border-muted/60 shadow-sm mb-8">
+    <nav className="w-full bg-background border-b border-muted/60 shadow-sm ">
       <div className="max-w-4xl mx-auto flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
           <Link
@@ -29,12 +30,7 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-4">
           <LanguageSwitcher />
-          <Link
-            href="/auth/login"
-            className="text-base font-medium text-foreground hover:text-primary transition-colors px-4 py-2 border border-primary rounded-lg bg-primary/10 hover:bg-primary/20"
-          >
-            {t("loginButton")}
-          </Link>
+          <ThemeToggle />
         </div>
       </div>
     </nav>
