@@ -17,8 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Finance Management Dashboard",
-  description: "Modern Dashboard with Next.js, NextIntl and Tailwind CSS",
+  title: "Fiscally - Finance Management Platform",
+  description:
+    "A modern finance management platform for personal and business use.",
   icons: {
     icon: "/images/favicon.ico",
   },

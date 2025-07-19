@@ -10,6 +10,12 @@
     "contactButton": "Contact Us"
   },
 
+  "AboutPage": {
+    "title": "About Us",
+    "paragraph1": "Welcome to our platform! We are dedicated to providing you with the best financial management tools to help you achieve your goals.",
+    "paragraph2": "Our mission is to simplify complex financial concepts and make them accessible to everyone, empowering you to make informed decisions about your money."
+  },
+
   "ContactPage": {
     "title": "Contact us",
     "description": "Feel free to reach out using the form below.",
@@ -39,29 +45,14 @@
   },
 
   "Dashboard": {
-    "body": {
-      "title": "Dashboard"
-    },
-    "nav": {
-      "dashboard": "Dashboard"
-    },
-    "usermenu": {
-      "myAccount": "My Account",
-      "profile": "Profile",
-      "settings": "Settings",
-      "logout": "Logout"
-    },
+    "body": {},
+    "nav": {},
+    "usermenu": {},
     "notifications": {
       "title": "Notifications",
       "noNotifications": "No notifications",
       "newMessage": "New message received",
       "updateAvailable": "Update available"
     }
-  },
-
-  "AboutPage": {
-    "title": "About Us",
-    "paragraph1": "Welcome to our platform! We are dedicated to providing you with the best financial management tools to help you achieve your goals.",
-    "paragraph2": "Our mission is to simplify complex financial concepts and make them accessible to everyone, empowering you to make informed decisions about your money."
   }
 }
