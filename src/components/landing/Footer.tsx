@@ -1,34 +1,17 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
-
-const links = [
-  {
-    title: "Features",
-    href: "#",
-  },
-  {
-    title: "Solution",
-    href: "#",
-  },
-  {
-    title: "Customers",
-    href: "#",
-  },
-  {
-    title: "Pricing",
-    href: "#",
-  },
-  {
-    title: "Help",
-    href: "#",
-  },
-  {
-    title: "About",
-    href: "#",
-  },
-];
+import { useTranslations } from "next-intl";
 
 export default function FooterSection() {
+  const t = useTranslations("Navbar");
+  const links = [
+    { name: t("about"), href: "#link" },
+    { name: t("features"), href: "#link" },
+    { name: t("pricing"), href: "#link" },
+    { name: t("contact"), href: "/contact" },
+  ];
+
   return (
     <footer className="border-b bg-white py-12 dark:bg-transparent">
       <div className="mx-auto max-w-5xl px-6">
@@ -53,7 +36,7 @@ export default function FooterSection() {
                 href={link.href}
                 className="text-muted-foreground hover:text-primary block duration-150"
               >
-                <span>{link.title}</span>
+                <span>{link.name}</span>
               </Link>
             ))}
           </div>

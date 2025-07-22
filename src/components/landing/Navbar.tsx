@@ -7,15 +7,16 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-
-const menuItems = [
-  { name: "About", href: "#link" },
-  { name: "Features", href: "#link" },
-  { name: "Pricing", href: "#link" },
-  { name: "Contact", href: "/contact" },
-];
+import { useTranslations } from "next-intl";
 
 export const HeroHeader = () => {
+  const t = useTranslations("Navbar");
+  const menuItems = [
+    { name: t("about"), href: "#link" },
+    { name: t("features"), href: "#link" },
+    { name: t("pricing"), href: "#link" },
+    { name: t("contact"), href: "/contact" },
+  ];
   const [menuState, setMenuState] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
 
@@ -109,7 +110,7 @@ export const HeroHeader = () => {
                   className={cn(isScrolled && "lg:hidden")}
                 >
                   <Link href="/login">
-                    <span>Login</span>
+                    <span>{t("login")}</span>
                   </Link>
                 </Button>
                 <Button
@@ -118,7 +119,7 @@ export const HeroHeader = () => {
                   className={cn(isScrolled && "lg:hidden")}
                 >
                   <Link href="/register">
-                    <span>Sign Up</span>
+                    <span>{t("signUp")}</span>
                   </Link>
                 </Button>
                 <Button
@@ -127,7 +128,7 @@ export const HeroHeader = () => {
                   className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
                 >
                   <Link href="/register">
-                    <span>Get Started</span>
+                    <span>{t("getStarted")}</span>
                   </Link>
                 </Button>
               </div>
@@ -137,4 +138,9 @@ export const HeroHeader = () => {
       </nav>
     </header>
   );
+};
+
+
+export const Navbar = () => {
+  return <HeroHeader />;
 };

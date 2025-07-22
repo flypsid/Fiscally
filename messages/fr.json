@@ -1,14 +1,21 @@
 {
-  "HomePage": {
-    "title": "bonjour le monde !",
+  "Navbar": {
     "about": "À propos",
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
     "contact": "Contact",
-    "home": "Accueil",
-    "heroTitle": "Fiscally : Plateforme de gestion financière IA",
-    "heroDescription": "Plateforme de gestion financière Next.js multilingue",
-    "dashboardButton": "Tableau de bord",
-    "contactButton": "Contactez-nous"
+    "login": "Connexion",
+    "signUp": "S'inscrire",
+    "getStarted": "Commencer"
   },
+  "HeroSection": {
+    "introducing": "Découvrez l'assistant Fiscally AI",
+    "title": "Finance intelligente, facturation intuitive, budget optimisé, avenir enrichi.",
+    "subtitle": "Automatisez vos processus financiers et concentrez-vous sur l’essentiel, planifiez vos projets et voyez votre patrimoine évoluer en temps réel.",
+    "getStarted": "Commencer",
+    "requestDemo": "Demander une démo"
+  },
+
   "ContactPage": {
     "title": "Contactez-nous",
     "description": "N'hésitez pas à nous contacter via le formulaire ci-dessous.",
@@ -37,29 +44,14 @@
     }
   },
   "Dashboard": {
-    "body": {
-      "title": "Tableau de bord"
-    },
-    "nav": {
-      "dashboard": "Tableau de bord"
-    },
-    "usermenu": {
-      "myAccount": "Mon compte",
-      "profile": "Profil",
-      "settings": "Paramètres",
-      "logout": "Déconnexion"
-    },
+    "body": {},
+    "nav": {},
+    "usermenu": {},
     "notifications": {
       "title": "Notifications",
       "noNotifications": "Aucune notification",
       "newMessage": "Nouveau message reçu",
       "updateAvailable": "Mise à jour disponible"
     }
-  },
-
-  "AboutPage": {
-    "title": "À propos de nous",
-    "paragraph1": "Bienvenue sur notre plateforme ! Nous nous engageons à vous fournir les meilleurs outils de gestion financière pour vous aider à atteindre vos objectifs.",
-    "paragraph2": "Notre mission est de simplifier les concepts financiers complexes et de les rendre accessibles à tous, vous permettant de prendre des décisions éclairées concernant votre argent."
   }
 }

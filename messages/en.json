@@ -1,19 +1,25 @@
 {
-  "HomePage": {
-    "title": "Hello world!",
-    "about": "About",
-    "contact": "Contact",
-    "home": "Home",
-    "heroTitle": "Fiscally: AI Finance Management Platform",
-    "heroDescription": "Ai Next.js Multilingual Financial Management Platform",
-    "dashboardButton": "Dashboard",
-    "contactButton": "Contact Us"
-  },
+  "HomePage": {},
 
-  "AboutPage": {
-    "title": "About Us",
-    "paragraph1": "Welcome to our platform! We are dedicated to providing you with the best financial management tools to help you achieve your goals.",
-    "paragraph2": "Our mission is to simplify complex financial concepts and make them accessible to everyone, empowering you to make informed decisions about your money."
+  "Navbar": {
+    "about": "About",
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "login": "Login",
+    "signUp": "Sign Up",
+    "getStarted": "Get Started"
+  },
+  "HeroSection": {
+    "introducing": "Introducing Fiscally AI Assistant",
+    "title": "Smart Finance Tracking, Invoicing & Money Growth",
+    "subtitle": "Your money, simplified. seamless invoicing, smart budgeting, expense tracking, and wealth growth. Finance made simple, for today and tomorrow.",
+    "getStarted": "Get Started",
+    "requestDemo": "Request a demo",
+    "meetCustomers": "Meet Our Customers"
+  },
+  "Footer": {
+    "rightsReserved": "All rights reserved"
   },
 
   "ContactPage": {

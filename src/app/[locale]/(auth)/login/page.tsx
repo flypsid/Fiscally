@@ -24,9 +24,9 @@ export default function LoginPage() {
               />
             </Link>
             <h1 className="mb-1 mt-4 text-xl font-semibold">
-              Sign In to Fiscally
+              Login to Fiscally
             </h1>
-            <p className="text-sm">Welcome back! Sign in to continue</p>
+            <p className="text-sm">Welcome! Login to continue</p>
           </div>
 
           <div className="mt-6 space-y-6">

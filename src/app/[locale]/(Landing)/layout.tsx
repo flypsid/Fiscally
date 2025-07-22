@@ -9,9 +9,9 @@ export default function LandingLayout({
 }) {
   return (
     <div className="flex">
-      <main className="w-full">
+      <main className="w-full flex flex-col min-h-screen">
         <HeroHeader />
-        <div className="px-4">{children}</div>
+        <div className="px-4 flex-grow">{children}</div>
         <Footer />
       </main>
     </div>

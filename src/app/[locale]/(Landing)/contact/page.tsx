@@ -46,7 +46,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto my-12 bg-background border border-muted rounded-2xl shadow-xl p-8">
+    <div className="max-w-md mx-auto my-44 bg-background border border-muted rounded-2xl shadow-xl p-8">
       <h1 className="text-3xl font-bold mb-2 tracking-tight text-foreground">
         {t("title")}
       </h1>

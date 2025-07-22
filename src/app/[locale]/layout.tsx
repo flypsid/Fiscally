@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fiscally: Smart Finance Tracking, Invoicing & Money Growth",
+  title: "Fiscally | Smart Finance Tracking, Invoicing & Money Growth",
   description:
     "Seamless invoicing, smart budgeting, expense tracking, and wealth growth.",
   icons: {
