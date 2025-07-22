@@ -1,5 +1,6 @@
 import "../globals.css";
-import Navbar from "@/components/landing/Navbar";
+import { HeroHeader } from "@/components/landing/Navbar";
+import Footer from "@/components/landing/Footer";
 
 export default function LandingLayout({
   children,
@@ -9,8 +10,9 @@ export default function LandingLayout({
   return (
     <div className="flex">
       <main className="w-full">
-        <Navbar />
+        <HeroHeader />
         <div className="px-4">{children}</div>
+        <Footer />
       </main>
     </div>
   );

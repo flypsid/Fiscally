@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fiscally - Finance Management Platform",
+  title: "Fiscally: Smart Finance Tracking, Invoicing & Money Growth",
   description:
-    "A modern finance management platform for personal and business use.",
+    "Seamless invoicing, smart budgeting, expense tracking, and wealth growth.",
   icons: {
     icon: "/images/favicon.ico",
   },

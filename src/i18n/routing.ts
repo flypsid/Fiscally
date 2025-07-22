@@ -12,9 +12,21 @@ export const routing = defineRouting({
       en: "/",
       fr: "/",
     },
-    "/about": {
-      en: "/about",
-      fr: "/a-propos",
+    "/dashboard": {
+      en: "/dashboard",
+      fr: "/tableau-de-bord",
+    },
+    "/login": {
+      en: "/login",
+      fr: "/connexion",
+    },
+    "/register": {
+      en: "/register",
+      fr: "/inscription",
+    },
+    "/forgot-password": {
+      en: "/forgot-password",
+      fr: "/mot-de-passe-oublie",
     },
     "/contact": {
       en: "/contact-us",
