@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -22,6 +23,7 @@ export function LogoutButton({
 }: LogoutButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const t = useTranslations("Navbar");
 
   const handleLogout = async () => {
     setIsLoading(true);
@@ -31,7 +33,7 @@ export function LogoutButton({
       toast.success("Successfully logged out");
       router.push("/");
       router.refresh();
-    } catch (error) {
+    } catch {
       toast.error("Failed to log out");
     } finally {
       setIsLoading(false);
@@ -49,7 +51,7 @@ export function LogoutButton({
       {children || (
         <>
           <LogOut className="h-4 w-4 mr-2" />
-          {isLoading ? "Logging out..." : "Logout"}
+          {isLoading ? t("loggingOut") : t("logout")}
         </>
       )}
     </Button>

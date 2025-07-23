@@ -9,8 +9,8 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const forgotPasswordSchema = z.object({
-  email: z.string().email("Invalid email address"),
+const createForgotPasswordSchema = (t: (key: string) => string) => z.object({
+  email: z.string().email(t("validation.emailInvalid")),
 });
 
 export function ForgotPasswordForm() {
@@ -27,6 +27,7 @@ export function ForgotPasswordForm() {
 
     try {
       // Validate email
+      const forgotPasswordSchema = createForgotPasswordSchema(t);
       const validatedData = forgotPasswordSchema.parse({ email });
 
       // Send reset password email
@@ -100,9 +101,9 @@ export function ForgotPasswordForm() {
               setErrors((prev) => ({ ...prev, email: "" }));
             }
           }}
+          placeholder={t("placeholders.email")}
           className={errors.email ? "border-red-500" : ""}
           disabled={isLoading}
-          placeholder="Enter your email address"
         />
         {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
       </div>

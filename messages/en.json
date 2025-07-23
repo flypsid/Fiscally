@@ -86,6 +86,19 @@
     "backToLogin": "Back to Login",
     "alreadyHaveAccount": "Already have an account?",
     "dontHaveAccount": "Don't have an account?",
-    "createAccount": "Create an account"
+    "createAccount": "Create an account",
+    "placeholders": {
+      "email": "Enter your email address",
+      "password": "Enter your password",
+      "name": "Enter your full name",
+      "confirmPassword": "Confirm your password"
+    },
+    "validation": {
+      "nameRequired": "Name must be at least 2 characters",
+      "emailInvalid": "Invalid email address",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "passwordsNoMatch": "Passwords don't match",
+      "passwordRequired": "Password is required"
+    }
   }
 }

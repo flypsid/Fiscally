@@ -22,11 +22,24 @@ export default async function middleware(request: NextRequest) {
     request.nextUrl.pathname.includes(route)
   );
 
+  // Auth routes that should redirect to dashboard if user is already logged in
+  const authRoutes = ["/login", "/connexion", "/register", "/inscription", "/forgot-password", "/mot-de-passe-oublie"];
+  const isAuthRoute = authRoutes.some((route) =>
+    request.nextUrl.pathname.includes(route)
+  );
+
   // Redirect to login if accessing protected route without session
   if (isProtectedRoute && !session) {
     const locale = request.nextUrl.pathname.split("/")[1];
     const loginPath = locale === "fr" ? "/fr/connexion" : "/en/login";
     return NextResponse.redirect(new URL(loginPath, request.url));
+  }
+
+  // Redirect to dashboard if accessing auth route with active session
+  if (isAuthRoute && session) {
+    const locale = request.nextUrl.pathname.split("/")[1];
+    const dashboardPath = locale === "fr" ? "/fr/tableau-de-bord" : "/en/dashboard";
+    return NextResponse.redirect(new URL(dashboardPath, request.url));
   }
 
   // Apply internationalization middleware

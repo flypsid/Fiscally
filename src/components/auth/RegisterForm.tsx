@@ -10,15 +10,15 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const registerSchema = z
+const createRegisterSchema = (t: (key: string) => string) => z
   .object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    name: z.string().min(2, t("validation.nameRequired")),
+    email: z.string().email(t("validation.emailInvalid")),
+    password: z.string().min(8, t("validation.passwordMinLength")),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: t("validation.passwordsNoMatch"),
     path: ["confirmPassword"],
   });
 
@@ -41,6 +41,7 @@ export function RegisterForm() {
 
     try {
       // Validate form data
+      const registerSchema = createRegisterSchema(t);
       const validatedData = registerSchema.parse(formData);
 
       // Attempt registration
@@ -95,6 +96,7 @@ export function RegisterForm() {
           id="name"
           value={formData.name}
           onChange={(e) => handleInputChange("name", e.target.value)}
+          placeholder={t("placeholders.name")}
           className={errors.name ? "border-red-500" : ""}
           disabled={isLoading}
         />
@@ -110,6 +112,7 @@ export function RegisterForm() {
           id="email"
           value={formData.email}
           onChange={(e) => handleInputChange("email", e.target.value)}
+          placeholder={t("placeholders.email")}
           className={errors.email ? "border-red-500" : ""}
           disabled={isLoading}
         />
@@ -125,6 +128,7 @@ export function RegisterForm() {
           id="password"
           value={formData.password}
           onChange={(e) => handleInputChange("password", e.target.value)}
+          placeholder={t("placeholders.password")}
           className={errors.password ? "border-red-500" : ""}
           disabled={isLoading}
         />
@@ -142,6 +146,7 @@ export function RegisterForm() {
           id="confirmPassword"
           value={formData.confirmPassword}
           onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
+          placeholder={t("placeholders.confirmPassword")}
           className={errors.confirmPassword ? "border-red-500" : ""}
           disabled={isLoading}
         />

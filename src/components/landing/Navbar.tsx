@@ -5,12 +5,15 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import { useTranslations } from "next-intl";
+import { useAuth } from "@/hooks/useAuth";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 
 export const HeroHeader = () => {
   const t = useTranslations("Navbar");
+  const { isAuthenticated, isLoading } = useAuth();
   const menuItems = [
     { name: t("about"), href: "#link" },
     { name: t("features"), href: "#link" },
@@ -103,34 +106,50 @@ export const HeroHeader = () => {
                   <LanguageSwitcher />
                   <ThemeToggle />
                 </div>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
-                >
-                  <Link href="/login">
-                    <span>{t("login")}</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
-                >
-                  <Link href="/register">
-                    <span>{t("signUp")}</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
-                >
-                  <Link href="/register">
-                    <span>{t("getStarted")}</span>
-                  </Link>
-                </Button>
+                {isLoading ? (
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <div className="h-9 bg-muted animate-pulse rounded-md" />
+                    <div className="h-9 bg-muted animate-pulse rounded-md" />
+                  </div>
+                ) : isAuthenticated ? (
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <Button asChild variant="ghost" size="sm">
+                      <Link href="/dashboard">{t("dashboard")}</Link>
+                    </Button>
+                    <LogoutButton variant="outline" size="sm" />
+                  </div>
+                ) : (
+                  <>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className={cn(isScrolled && "lg:hidden")}
+                    >
+                      <Link href="/login">
+                        <span>{t("login")}</span>
+                      </Link>
+                    </Button>
+                    <Button
+                      asChild
+                      size="sm"
+                      className={cn(isScrolled && "lg:hidden")}
+                    >
+                      <Link href="/register">
+                        <span>{t("signUp")}</span>
+                      </Link>
+                    </Button>
+                    <Button
+                      asChild
+                      size="sm"
+                      className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
+                    >
+                      <Link href="/register">
+                        <span>{t("getStarted")}</span>
+                      </Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -139,7 +158,6 @@ export const HeroHeader = () => {
     </header>
   );
 };
-
 
 export const Navbar = () => {
   return <HeroHeader />;

@@ -23,9 +23,9 @@ export default function LoginPage() {
               />
             </Link>
             <h1 className="mb-1 mt-4 text-xl font-semibold">
-              Login to Fiscally
+              {t("loginTitle")}
             </h1>
-            <p className="text-sm">Welcome! Login to continue</p>
+            <p className="text-sm">{t("loginWelcome")}</p>
           </div>
 
           <div className="mt-6">

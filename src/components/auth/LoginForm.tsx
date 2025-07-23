@@ -10,9 +10,9 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
+const createLoginSchema = (t: (key: string) => string) => z.object({
+  email: z.string().email(t("validation.emailInvalid")),
+  password: z.string().min(1, t("validation.passwordRequired")),
 });
 
 export function LoginForm() {
@@ -29,6 +29,7 @@ export function LoginForm() {
 
     try {
       // Validate form data
+      const loginSchema = createLoginSchema(t);
       const validatedData = loginSchema.parse(formData);
 
       // Attempt login
@@ -82,6 +83,7 @@ export function LoginForm() {
           id="email"
           value={formData.email}
           onChange={(e) => handleInputChange("email", e.target.value)}
+          placeholder={t("placeholders.email")}
           className={errors.email ? "border-red-500" : ""}
           disabled={isLoading}
         />
@@ -97,6 +99,7 @@ export function LoginForm() {
           id="password"
           value={formData.password}
           onChange={(e) => handleInputChange("password", e.target.value)}
+          placeholder={t("placeholders.password")}
           className={errors.password ? "border-red-500" : ""}
           disabled={isLoading}
         />

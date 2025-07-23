@@ -5,8 +5,11 @@
     "pricing": "Tarifs",
     "contact": "Contact",
     "login": "Connexion",
-    "signUp": "S'inscrire",
-    "getStarted": "Commencer"
+    "signUp": "Inscription",
+    "getStarted": "Commencer",
+    "dashboard": "Tableau de bord",
+    "logout": "Déconnexion",
+    "loggingOut": "Déconnexion..."
   },
   "HeroSection": {
     "introducing": "Découvrez l'assistant Fiscally AI",
@@ -79,6 +82,23 @@
     "signOutSuccess": "Déconnexion réussie !",
     "signOutError": "Échec de la déconnexion. Veuillez réessayer.",
     "resetPasswordSuccess": "Email de réinitialisation envoyé ! Vérifiez votre boîte de réception.",
-    "resetPasswordError": "Échec de l'envoi de l'email de réinitialisation. Veuillez réessayer."
+    "resetPasswordError": "Échec de l'envoi de l'email de réinitialisation. Veuillez réessayer.",
+    "loginTitle": "Connexion à Fiscally",
+    "loginWelcome": "Bienvenue ! Connectez-vous pour continuer",
+    "registerTitle": "Inscription sur Fiscally",
+    "registerWelcome": "Bienvenue ! Créez un compte pour commencer",
+    "placeholders": {
+      "email": "Saisissez votre adresse e-mail",
+      "password": "Saisissez votre mot de passe",
+      "name": "Saisissez votre nom complet",
+      "confirmPassword": "Confirmez votre mot de passe"
+    },
+    "validation": {
+      "nameRequired": "Le nom doit comporter au moins 2 caractères",
+      "emailInvalid": "Adresse e-mail invalide",
+      "passwordMinLength": "Le mot de passe doit comporter au moins 8 caractères",
+      "passwordsNoMatch": "Les mots de passe ne correspondent pas",
+      "passwordRequired": "Le mot de passe est requis"
+    }
   }
 }

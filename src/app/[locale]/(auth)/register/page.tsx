@@ -23,9 +23,9 @@ export default function RegisterPage() {
               />
             </Link>
             <h1 className="text-title mb-1 mt-4 text-xl font-semibold">
-              Register on Fiscally
+              {t("registerTitle")}
             </h1>
-            <p className="text-sm">Welcome! Create an account to get started</p>
+            <p className="text-sm">{t("registerWelcome")}</p>
           </div>
 
           <div className="mt-6">
