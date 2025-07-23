@@ -104,7 +104,7 @@ export function HeroSection() {
                     </div>
                   </Link>
 
-                  <h1 className="mt-8 mx-auto text-balance text-4xl md:text-5xl lg:mt-16 xl:text-[4.5rem]">
+                  <h1 className="mt-8 mx-auto text-balance text-4xl md:text-5xl lg:mt-16 xl:text-[4.5rem] whitespace-pre-line max-w-3xl">
                     <TextEffect per="word" preset="slide">
                       {t("title")}
                     </TextEffect>

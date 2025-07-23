@@ -15,8 +15,8 @@ export default function FooterSection() {
   return (
     <footer className="border-b bg-white py-12 dark:bg-transparent">
       <div className="mx-auto max-w-5xl px-6">
-        <div className="flex flex-wrap justify-between items-center gap-6">
-          <div className="flex items-center gap-2 order-last md:order-first">
+        <div className="flex flex-wrap justify-center md:justify-between items-center gap-6">
+          <div className="flex items-center gap-2 order-last md:order-first w-full md:w-auto justify-center md:justify-start">
             <Image
               src="/images/flogo-nobg.png"
               alt="Fiscally Logo"
@@ -29,7 +29,7 @@ export default function FooterSection() {
               © {new Date().getFullYear()} Fiscally, All rights reserved
             </span>
           </div>
-          <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last">
+          <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last w-full md:w-auto">
             {links.map((link, index) => (
               <Link
                 key={index}

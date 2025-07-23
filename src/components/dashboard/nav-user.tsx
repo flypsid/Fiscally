@@ -7,6 +7,7 @@ import {
   IconNotification,
   IconUserCircle,
 } from "@tabler/icons-react";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -94,10 +95,10 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <IconLogout />
+            <LogoutButton variant="ghost" className="w-full justify-start p-2">
+              <IconLogout className="mr-2 h-4 w-4" />
               Log out
-            </DropdownMenuItem>
+            </LogoutButton>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

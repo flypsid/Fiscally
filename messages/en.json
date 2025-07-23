@@ -60,5 +60,32 @@
       "newMessage": "New message received",
       "updateAvailable": "Update available"
     }
+  },
+
+  "Auth": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "confirmPassword": "Confirm Password",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signingIn": "Signing in...",
+    "signingUp": "Signing up...",
+    "loginSuccess": "Successfully logged in!",
+    "loginError": "Failed to log in. Please check your credentials.",
+    "registerSuccess": "Account created successfully!",
+    "registerError": "Failed to create account. Please try again.",
+    "signUpSuccess": "Account created successfully! Welcome!",
+    "signUpError": "Failed to create account. Please try again.",
+    "signOutSuccess": "Signed out successfully!",
+    "signOutError": "Failed to sign out. Please try again.",
+    "forgotPassword": "Forgot your password?",
+    "resetPassword": "Reset Password",
+    "resetPasswordSuccess": "Password reset email sent! Check your inbox.",
+    "resetPasswordError": "Failed to send reset email. Please try again.",
+    "backToLogin": "Back to Login",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "createAccount": "Create an account"
   }
 }

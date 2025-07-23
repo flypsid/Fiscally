@@ -1,16 +1,15 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { RegisterForm } from "@/components/auth/RegisterForm";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const t = useTranslations("Auth");
+
   return (
     <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
-      <form
-        action=""
-        className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]"
-      >
+      <div className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]">
         <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
           <div className="text-center">
             <Link href="/" aria-label="go home" className="mx-auto block w-fit">
@@ -29,53 +28,8 @@ export default function LoginPage() {
             <p className="text-sm">Welcome! Create an account to get started</p>
           </div>
 
-          <div className="mt-6 space-y-6">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <Label htmlFor="firstname" className="block text-sm">
-                  Firstname
-                </Label>
-                <Input type="text" required name="firstname" id="firstname" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastname" className="block text-sm">
-                  Lastname
-                </Label>
-                <Input type="text" required name="lastname" id="lastname" />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="email" className="block text-sm">
-                Username
-              </Label>
-              <Input type="email" required name="email" id="email" />
-            </div>
-
-            <div className="space-y-0.5">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="pwd" className="text-title text-sm">
-                  Password
-                </Label>
-                <Button asChild variant="link" size="sm">
-                  <Link
-                    href="#"
-                    className="link intent-info variant-ghost text-sm"
-                  >
-                    Forgot your Password ?
-                  </Link>
-                </Button>
-              </div>
-              <Input
-                type="password"
-                required
-                name="pwd"
-                id="pwd"
-                className="input sz-md variant-mixed"
-              />
-            </div>
-
-            <Button className="w-full">Sign In</Button>
+          <div className="mt-6">
+            <RegisterForm />
           </div>
 
           <div className="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
@@ -138,13 +92,13 @@ export default function LoginPage() {
 
         <div className="p-3">
           <p className="text-accent-foreground text-center text-sm">
-            Have an account ?
+            {t("alreadyHaveAccount")}
             <Button asChild variant="link" className="px-2">
-              <Link href="/login">Sign In</Link>
+              <Link href="/login">{t("signIn")}</Link>
             </Button>
           </p>
         </div>
-      </form>
+      </div>
     </section>
   );
 }

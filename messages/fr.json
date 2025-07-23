@@ -10,7 +10,7 @@
   },
   "HeroSection": {
     "introducing": "Découvrez l'assistant Fiscally AI",
-    "title": "Finance intelligente, facturation intuitive, budget optimisé, avenir enrichi.",
+    "title": "Finance intelligente, facturation intuitive, budget optimisé",
     "subtitle": "Automatisez vos processus financiers et concentrez-vous sur l’essentiel, planifiez vos projets et voyez votre patrimoine évoluer en temps réel.",
     "getStarted": "Commencer",
     "requestDemo": "Demander une démo"
@@ -53,5 +53,32 @@
       "newMessage": "Nouveau message reçu",
       "updateAvailable": "Mise à jour disponible"
     }
+  },
+
+  "Auth": {
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "name": "Nom",
+    "confirmPassword": "Confirmer le mot de passe",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "signingIn": "Connexion en cours...",
+    "signingUp": "Inscription en cours...",
+    "loginSuccess": "Connexion réussie !",
+    "loginError": "Échec de la connexion. Veuillez vérifier vos identifiants.",
+    "registerSuccess": "Compte créé avec succès !",
+    "registerError": "Échec de la création du compte. Veuillez réessayer.",
+    "forgotPassword": "Mot de passe oublié ?",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "backToLogin": "Retour à la connexion",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "createAccount": "Créer un compte",
+    "signUpSuccess": "Compte créé avec succès ! Bienvenue !",
+    "signUpError": "Échec de la création du compte. Veuillez réessayer.",
+    "signOutSuccess": "Déconnexion réussie !",
+    "signOutError": "Échec de la déconnexion. Veuillez réessayer.",
+    "resetPasswordSuccess": "Email de réinitialisation envoyé ! Vérifiez votre boîte de réception.",
+    "resetPasswordError": "Échec de l'envoi de l'email de réinitialisation. Veuillez réessayer."
   }
 }
