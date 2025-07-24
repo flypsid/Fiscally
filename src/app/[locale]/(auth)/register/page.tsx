@@ -29,18 +29,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="mt-6">
-            <RegisterForm />
-          </div>
-
-          <div className="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-            <hr className="border-dashed" />
-            <span className="text-muted-foreground text-xs">
-              Or continue With
-            </span>
-            <hr className="border-dashed" />
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 mb-6">
             <Button type="button" variant="outline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +76,17 @@ export default function RegisterPage() {
               </svg>
               <span>Microsoft</span>
             </Button>
+            </div>
+
+            <div className="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+              <hr className="border-dashed" />
+              <span className="text-muted-foreground text-xs">
+                {t("orContinueWith")}
+              </span>
+              <hr className="border-dashed" />
+            </div>
+
+            <RegisterForm />
           </div>
         </div>
 

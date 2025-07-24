@@ -105,6 +105,7 @@
       "passwordMinLength": "Password must be at least 8 characters",
       "passwordsNoMatch": "Passwords don't match",
       "passwordRequired": "Password is required"
-    }
+    },
+    "orContinueWith": "Or continue with"
   }
 }

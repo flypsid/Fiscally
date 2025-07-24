@@ -1,8 +1,8 @@
-# Stratégie de Sécurité - Better Auth
+# Stratégie de Sécurité - Fiscally
 
 ## Vue d'ensemble
 
-Notre application implémente une stratégie de sécurité multicouche pour l'authentification, suivant les meilleures pratiques recommandées par Better Auth et les avertissements de sécurité de leur documentation.
+Fiscally implémente une stratégie de sécurité multicouche basée sur **Better Auth** avec **Drizzle ORM** et **PostgreSQL (Neon)**, suivant les meilleures pratiques de sécurité pour les applications Next.js modernes. Cette architecture garantit une protection robuste tout en maintenant une excellente expérience utilisateur.
 
 ## Couches de Protection
 
@@ -171,24 +171,94 @@ export async function protectedAction() {
 **Fichier**: `src/lib/auth.ts`
 
 ```typescript
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { db } from "@/db/drizzle";
+import { nextCookies } from "better-auth/next-js";
+
 export const auth = betterAuth({
+  secret: process.env.BETTER_AUTH_SECRET!,
+  baseURL: process.env.BETTER_AUTH_URL!,
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: false, // Configurable selon les besoins
   },
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
-  plugins: [nextCookies()], // Important pour Next.js
+  plugins: [nextCookies()], // Essentiel pour Next.js
 });
+```
+
+### Schéma de Base de Données Sécurisé
+
+**Fichier**: `src/db/schema.ts`
+
+Le schéma utilise les meilleures pratiques de sécurité :
+
+- ✅ **Clés primaires** : UUID/text pour éviter l'énumération
+- ✅ **Contraintes de référence** : CASCADE pour la cohérence
+- ✅ **Timestamps** : Traçabilité complète des actions
+- ✅ **Tokens uniques** : Prévention des collisions
+- ✅ **Expiration des sessions** : Sécurité temporelle
 ```
 
 ## Variables d'Environnement Requises
 
 ```env
-BETTER_AUTH_SECRET=your-secret-key
+# Better Auth Configuration
+BETTER_AUTH_SECRET=your-secret-key-min-32-chars
 BETTER_AUTH_URL=${NEXT_PUBLIC_URL}
-DATABASE_URL=your-database-url
+
+# Database (Neon PostgreSQL)
+DATABASE_URL=postgresql://username:password@host/database
+
+# Application
+NEXT_PUBLIC_URL=http://localhost:3000
+NODE_ENV=development|production
 ```
+
+### Sécurité des Variables d'Environnement
+
+- ✅ **BETTER_AUTH_SECRET**: Minimum 32 caractères, généré aléatoirement
+- ✅ **DATABASE_URL**: Connexion sécurisée SSL vers Neon
+- ✅ **Jamais de secrets** dans le code source ou les commits
+- ✅ Utilisation de `.env.local` pour le développement
+- ✅ Variables d'environnement chiffrées en production
+
+## Stack Technologique Sécurisé
+
+### Technologies Principales
+
+- **Framework**: Next.js 15.3.4 (App Router)
+- **Language**: TypeScript (mode strict)
+- **Authentification**: Better Auth 1.3.2
+- **Base de données**: PostgreSQL (Neon) + Drizzle ORM 0.44.3
+- **Validation**: Zod 3.25.76
+- **UI**: Radix UI + Tailwind CSS 4
+- **Internationalisation**: next-intl 4.1.0
+- **État**: React hooks + Context API
+- **Animations**: Framer Motion 12.23.6
+
+### Sécurité par Couche
+
+#### Frontend (React/Next.js)
+- ✅ **CSR Protection**: Validation Zod côté client
+- ✅ **XSS Prevention**: Sanitisation automatique React
+- ✅ **CSRF Protection**: Tokens CSRF intégrés
+- ✅ **Type Safety**: TypeScript strict mode
+
+#### Backend (API Routes)
+- ✅ **Input Validation**: Middlewares Zod obligatoires
+- ✅ **Authentication**: Better Auth session validation
+- ✅ **SQL Injection**: Drizzle ORM avec requêtes préparées
+- ✅ **Rate Limiting**: À implémenter selon les besoins
+
+#### Base de Données (PostgreSQL/Neon)
+- ✅ **Connexion SSL**: Chiffrement en transit
+- ✅ **Credentials**: Variables d'environnement sécurisées
+- ✅ **Migrations**: Contrôle de version avec Drizzle Kit
+- ✅ **Backup**: Gestion automatique par Neon
 
 ## Tests de Sécurité
 
@@ -198,6 +268,9 @@ DATABASE_URL=your-database-url
 2. **Session expirée**: Redirection automatique
 3. **Cookie manipulé**: Validation côté serveur échoue
 4. **Navigation directe**: Middleware bloque l'accès
+5. **Injection SQL**: Tests avec Drizzle ORM
+6. **XSS**: Validation des inputs utilisateur
+7. **CSRF**: Vérification des tokens
 
 ### Commandes de Test
 
@@ -205,11 +278,37 @@ DATABASE_URL=your-database-url
 # Vérification TypeScript
 npx tsc --noEmit
 
-# Tests d'intégration
-npm run test
+# Lint et formatage
+npm run lint
 
-# Audit de sécurité
+# Audit de sécurité des dépendances
 npm audit
+npm audit fix
+
+# Tests de validation Zod
+npm run test:validation
+
+# Tests d'authentification
+npm run test:auth
+```
+
+### Tests de Pénétration Recommandés
+
+```bash
+# Test des endpoints d'authentification
+curl -X POST http://localhost:3000/api/auth/sign-in \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}'
+
+# Test de validation des données
+curl -X PUT http://localhost:3000/api/user/profile \
+  -H "Content-Type: application/json" \
+  -H "Cookie: better-auth.session_token=INVALID_TOKEN" \
+  -d '{"name":"<script>alert('XSS')</script>"}'
+
+# Test d'accès non autorisé
+curl -X GET http://localhost:3000/api/user/profile \
+  -H "Content-Type: application/json"
 ```
 
 ## Maintenance
