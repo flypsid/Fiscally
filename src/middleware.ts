@@ -22,8 +22,22 @@ export default async function middleware(request: NextRequest) {
     request.nextUrl.pathname.includes(route)
   );
 
+  // Public routes that should be accessible without authentication
+  const publicRoutes = ["/", "/fr", "/en"];
+  const isPublicRoute = publicRoutes.some((route) => {
+    const pathname = request.nextUrl.pathname;
+    return pathname === route || pathname === `${route}/`;
+  });
+
   // Auth routes that should redirect to dashboard if user is already logged in
-  const authRoutes = ["/login", "/connexion", "/register", "/inscription", "/forgot-password", "/mot-de-passe-oublie"];
+  const authRoutes = [
+    "/login",
+    "/connexion",
+    "/register",
+    "/inscription",
+    "/forgot-password",
+    "/mot-de-passe-oublie",
+  ];
   const isAuthRoute = authRoutes.some((route) =>
     request.nextUrl.pathname.includes(route)
   );
@@ -35,10 +49,16 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(loginPath, request.url));
   }
 
+  // Allow access to public routes without authentication
+  if (isPublicRoute) {
+    return intlMiddleware(request);
+  }
+
   // Redirect to dashboard if accessing auth route with active session
   if (isAuthRoute && session) {
     const locale = request.nextUrl.pathname.split("/")[1];
-    const dashboardPath = locale === "fr" ? "/fr/tableau-de-bord" : "/en/dashboard";
+    const dashboardPath =
+      locale === "fr" ? "/fr/tableau-de-bord" : "/en/dashboard";
     return NextResponse.redirect(new URL(dashboardPath, request.url));
   }
 

@@ -3,35 +3,44 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { LogOut } from "lucide-react";
 
 interface LogoutButtonProps {
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
   size?: "default" | "sm" | "lg" | "icon";
   className?: string;
   children?: React.ReactNode;
 }
 
-export function LogoutButton({ 
-  variant = "ghost", 
-  size = "sm", 
+export function LogoutButton({
+  variant = "ghost",
+  size = "sm",
   className = "",
-  children 
+  children,
 }: LogoutButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const locale = useLocale();
   const t = useTranslations("Navbar");
 
   const handleLogout = async () => {
     setIsLoading(true);
-    
+
     try {
       await authClient.signOut();
       toast.success("Successfully logged out");
-      router.push("/");
+      // Redirect to home page with current locale
+      router.push(`/${locale}`);
       router.refresh();
     } catch {
       toast.error("Failed to log out");

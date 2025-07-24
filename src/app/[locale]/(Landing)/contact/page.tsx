@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { getContactSchema } from "@/app/schema/contactSchema";
+import { getContactSchema } from "@/lib/schemas/contact";
 
 // Définition d'un type pour les erreurs de champ
 interface FieldErrors {

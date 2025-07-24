@@ -9,11 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { z } from "zod";
-
-const createLoginSchema = (t: (key: string) => string) => z.object({
-  email: z.string().email(t("validation.emailInvalid")),
-  password: z.string().min(1, t("validation.passwordRequired")),
-});
+import { createLoginSchema } from "@/lib/schemas/auth";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);

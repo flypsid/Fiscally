@@ -14,8 +14,9 @@ export default async function Page({
 }: {
   params: { locale: string };
 }) {
+  const { locale } = await params;
   return (
-    <ServerProtectedRoute locale={params.locale}>
+    <ServerProtectedRoute locale={locale}>
       <ProtectedRoute>
         <SidebarProvider
           style={

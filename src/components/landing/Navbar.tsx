@@ -9,7 +9,6 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
-import { LogoutButton } from "@/components/auth/LogoutButton";
 
 export const HeroHeader = () => {
   const t = useTranslations("Navbar");
@@ -112,11 +111,10 @@ export const HeroHeader = () => {
                     <div className="h-9 bg-muted animate-pulse rounded-md" />
                   </div>
                 ) : isAuthenticated ? (
-                  <div className="flex flex-col gap-2 sm:flex-row">
-                    <Button asChild variant="ghost" size="sm">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:ml-4">
+                    <Button asChild variant="default" size="sm">
                       <Link href="/dashboard">{t("dashboard")}</Link>
                     </Button>
-                    <LogoutButton variant="outline" size="sm" />
                   </div>
                 ) : (
                   <>

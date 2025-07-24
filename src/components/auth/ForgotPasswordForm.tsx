@@ -8,10 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { z } from "zod";
-
-const createForgotPasswordSchema = (t: (key: string) => string) => z.object({
-  email: z.string().email(t("validation.emailInvalid")),
-});
+import { createForgotPasswordSchema } from "@/lib/schemas/auth";
 
 export function ForgotPasswordForm() {
   const [isLoading, setIsLoading] = useState(false);

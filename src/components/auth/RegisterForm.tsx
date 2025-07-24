@@ -9,18 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { z } from "zod";
-
-const createRegisterSchema = (t: (key: string) => string) => z
-  .object({
-    name: z.string().min(2, t("validation.nameRequired")),
-    email: z.string().email(t("validation.emailInvalid")),
-    password: z.string().min(8, t("validation.passwordMinLength")),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: t("validation.passwordsNoMatch"),
-    path: ["confirmPassword"],
-  });
+import { createRegisterSchema } from "@/lib/schemas/auth";
 
 export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);

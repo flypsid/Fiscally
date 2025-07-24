@@ -186,7 +186,7 @@ export const auth = betterAuth({
 
 ```env
 BETTER_AUTH_SECRET=your-secret-key
-BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_URL=${NEXT_PUBLIC_URL}
 DATABASE_URL=your-database-url
 ```
 
