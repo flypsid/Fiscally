@@ -1,16 +1,25 @@
+"use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const t = useTranslations("Auth");
 
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+  };
+
   return (
-    <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
+    <section className="flex min-h-screen bg-zinc-50 px-4 py-4 md:py-8 lg:py-16 dark:bg-transparent">
       <div className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]">
-        <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
+        <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-4 pb-3 md:p-6 md:pb-4">
           <div className="text-center">
             <Link href="/" aria-label="go home" className="mx-auto block w-fit">
               <Image
@@ -22,15 +31,15 @@ export default function LoginPage() {
                 priority
               />
             </Link>
-            <h1 className="mb-1 mt-4 text-xl font-semibold">
+            <h1 className="mb-1 mt-3 text-xl font-semibold">
               {t("loginTitle")}
             </h1>
             <p className="text-sm">{t("loginWelcome")}</p>
           </div>
 
-          <div className="mt-6">
-            <div className="grid grid-cols-2 gap-3 mb-6">
-            <Button type="button" variant="outline">
+          <div className="mt-3 md:mt-4">
+            <div className="grid grid-cols-2 gap-3 mb-3 md:mb-4">
+            <Button type="button" variant="outline" onClick={handleGoogleSignIn}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="0.98em"
@@ -78,7 +87,7 @@ export default function LoginPage() {
             </Button>
             </div>
 
-            <div className="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+            <div className="my-3 md:my-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
               <hr className="border-dashed" />
               <span className="text-muted-foreground text-xs">
                 {t("orContinueWith")}
@@ -88,7 +97,7 @@ export default function LoginPage() {
 
             <LoginForm />
 
-            <div className="mt-4 text-center">
+            <div className="mt-2 md:mt-3 text-center">
               <Button asChild variant="link" size="sm">
                 <Link href="/forgot-password" className="text-sm">
                   {t("forgotPassword")}
@@ -98,7 +107,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="p-3">
+        <div className="p-2 md:p-3">
           <p className="text-accent-foreground text-center text-sm">
             {t("dontHaveAccount")}
             <Button asChild variant="link" className="px-2">

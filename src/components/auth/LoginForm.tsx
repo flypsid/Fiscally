@@ -69,8 +69,8 @@ export function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
+    <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+      <div className="space-y-1 md:space-y-2">
         <Label htmlFor="email" className="block text-sm">
           {t("email")}
         </Label>
@@ -86,7 +86,7 @@ export function LoginForm() {
         {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1 md:space-y-2">
         <Label htmlFor="password" className="block text-sm">
           {t("password")}
         </Label>
