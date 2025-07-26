@@ -18,7 +18,7 @@ export default function FooterSection() {
         <div className="flex flex-wrap justify-center md:justify-between items-center gap-6">
           <div className="flex items-center gap-2 order-last md:order-first w-full md:w-auto justify-center md:justify-start">
             <Image
-              src="/images/flogo-nobg.png"
+              src="/images/logo.png"
               alt="Fiscally Logo"
               width={20}
               height={20}

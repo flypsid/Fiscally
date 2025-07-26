@@ -2,13 +2,13 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { ForgotPasswordForm } from "@/components/auth/ForgotPasswordForm";
+import { EmailSentConfirmation } from "@/components/auth/EmailSentConfirmation";
 
-export default function ForgotPasswordPage() {
+export default function EmailSentPage() {
   const t = useTranslations("Auth");
 
   return (
-    <section className="flex min-h-screen bg-zinc-50 px-4 dark:bg-transparent">
+    <section className="flex min-h-screen bg-zinc-50 px-4 py-12 dark:bg-transparent">
       <div className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]">
         <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
           <div className="text-center">
@@ -23,21 +23,21 @@ export default function ForgotPasswordPage() {
               />
             </Link>
             <h1 className="mb-1 mt-4 text-xl font-semibold">
-              {t("resetPassword")}
+              {t("emailVerificationTitle")}
             </h1>
-            <p className="text-sm">{t("enterEmailForReset")}</p>
+            <p className="text-sm text-gray-600">{t("checkYourEmail")}</p>
           </div>
 
           <div className="mt-6">
-            <ForgotPasswordForm />
+            <EmailSentConfirmation />
           </div>
         </div>
 
         <div className="p-3">
           <p className="text-accent-foreground text-center text-sm">
-            {t("rememberedPassword")}
+            {t("needHelp")}
             <Button asChild variant="link" className="px-2">
-              <Link href="/login">{t("signIn")}</Link>
+              <Link href="/contact">{t("contactSupport")}</Link>
             </Button>
           </p>
         </div>

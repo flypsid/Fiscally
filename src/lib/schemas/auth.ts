@@ -22,6 +22,14 @@ export const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
 });
 
+export const resetPasswordSchema = z.object({
+  password: z.string().min(8),
+  confirmPassword: z.string().min(8),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
 // Schémas avec traductions pour le côté client
 export const createLoginSchema = (t: (key: string) => string) => z.object({
   email: z.string().email(t("validation.emailInvalid")),
@@ -44,7 +52,16 @@ export const createForgotPasswordSchema = (t: (key: string) => string) => z.obje
   email: z.string().email(t("validation.emailInvalid")),
 });
 
+export const createResetPasswordSchema = (t: (key: string) => string) => z.object({
+  password: z.string().min(8, t("validation.passwordMinLength")),
+  confirmPassword: z.string().min(8, t("validation.passwordMinLength")),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: t("validation.passwordsDoNotMatch"),
+  path: ["confirmPassword"],
+});
+
 // Types inférés
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;

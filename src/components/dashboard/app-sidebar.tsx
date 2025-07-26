@@ -163,7 +163,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <Link href="/">
                 <Image
-                  src="/images/flogo-nobg.png"
+                  src="/images/logo.png"
                   alt="Fiscally Logo"
                   width={32}
                   height={32}

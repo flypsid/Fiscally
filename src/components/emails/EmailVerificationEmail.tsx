@@ -1,0 +1,213 @@
+/* eslint-disable @next/next/no-head-element */
+import * as React from "react";
+
+interface EmailVerificationEmailProps {
+  userName: string;
+  verificationUrl: string;
+  locale: "en" | "fr";
+}
+
+const translations = {
+  en: {
+    subject: "Verify your email address",
+    title: "Verify your email address",
+    greeting: "Hello",
+    message:
+      "Thank you for signing up for Fiscally! Please verify your email address by clicking the button below:",
+    buttonText: "Verify Email",
+    expiry: "This link will expire in 24 hours.",
+    noRequest: "If you didn't create an account, please ignore this email.",
+    footer: "Best regards,\nThe Fiscally Team",
+  },
+  fr: {
+    subject: "Vérifiez votre adresse email",
+    title: "Vérifiez votre adresse email",
+    greeting: "Bonjour",
+    message:
+      "Merci de vous être inscrit sur Fiscally ! Veuillez vérifier votre adresse email en cliquant sur le bouton ci-dessous :",
+    buttonText: "Vérifier l'email",
+    expiry: "Ce lien expirera dans 24 heures.",
+    noRequest: "Si vous n'avez pas créé de compte, veuillez ignorer cet email.",
+    footer: "Cordialement,\nL'équipe Fiscally",
+  },
+};
+
+export function EmailVerificationEmail({
+  userName,
+  verificationUrl,
+  locale,
+}: EmailVerificationEmailProps) {
+  const t = translations[locale];
+
+  return (
+    <html>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{t.subject}</title>
+      </head>
+      <body
+        style={{
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          lineHeight: "1.6",
+          color: "#333333",
+          backgroundColor: "#f8f9fa",
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "600px",
+            margin: "0 auto",
+            backgroundColor: "#ffffff",
+            borderRadius: "8px",
+            overflow: "hidden",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          {/* Header */}
+          <div
+            style={{
+              backgroundColor: "#1f2937",
+              padding: "32px 24px",
+              textAlign: "center" as const,
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://res.cloudinary.com/dvc22eldv/image/upload/v1753544352/logo_zq36nx.png"
+              alt="Fiscally Logo"
+              style={{
+                height: "40px",
+                width: "auto",
+                marginBottom: "8px",
+              }}
+            />
+            <h1
+              style={{
+                color: "#ffffff",
+                fontSize: "24px",
+                fontWeight: "bold",
+                margin: 0,
+              }}
+            >
+              Fiscally
+            </h1>
+          </div>
+
+          {/* Content */}
+          <div
+            style={{
+              padding: "32px 24px",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "20px",
+                fontWeight: "600",
+                color: "#1f2937",
+                marginBottom: "16px",
+              }}
+            >
+              {t.title}
+            </h2>
+
+            <p
+              style={{
+                fontSize: "16px",
+                marginBottom: "16px",
+              }}
+            >
+              {t.greeting} {userName},
+            </p>
+
+            <p
+              style={{
+                fontSize: "16px",
+                marginBottom: "24px",
+              }}
+            >
+              {t.message}
+            </p>
+
+            {/* Verification Button */}
+            <div
+              style={{
+                textAlign: "center" as const,
+                marginBottom: "24px",
+              }}
+            >
+              <a
+                href={verificationUrl}
+                style={{
+                  display: "inline-block",
+                  backgroundColor: "#10b981",
+                  color: "#ffffff",
+                  padding: "12px 24px",
+                  borderRadius: "6px",
+                  textDecoration: "none",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                }}
+              >
+                {t.buttonText}
+              </a>
+            </div>
+
+            <p
+              style={{
+                fontSize: "14px",
+                color: "#6b7280",
+                marginBottom: "16px",
+              }}
+            >
+              {t.expiry}
+            </p>
+
+            <p
+              style={{
+                fontSize: "14px",
+                color: "#6b7280",
+                marginBottom: "24px",
+              }}
+            >
+              {t.noRequest}
+            </p>
+
+            <p
+              style={{
+                fontSize: "16px",
+                whiteSpace: "pre-line" as const,
+              }}
+            >
+              {t.footer}
+            </p>
+          </div>
+
+          {/* Footer */}
+          <div
+            style={{
+              backgroundColor: "#f3f4f6",
+              padding: "16px 24px",
+              textAlign: "center" as const,
+            }}
+          >
+            <p
+              style={{
+                fontSize: "12px",
+                color: "#6b7280",
+                margin: 0,
+              }}
+            >
+              © 2025 Fiscally. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
+  );
+}
+
+export default EmailVerificationEmail;

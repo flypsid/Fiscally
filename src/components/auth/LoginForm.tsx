@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ export function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
+  const locale = useLocale();
   const t = useTranslations("Auth");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,7 +42,9 @@ export function LoginForm() {
 
       if (data) {
         toast.success(t("loginSuccess"));
-        router.push("/dashboard");
+        const dashboardPath =
+          locale === "fr" ? "/fr/tableau-de-bord" : "/en/dashboard";
+        router.push(dashboardPath);
         router.refresh();
       }
     } catch (error) {

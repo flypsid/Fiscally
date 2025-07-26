@@ -47,7 +47,9 @@ export function RegisterForm() {
 
       if (data) {
         toast.success(t("registerSuccess"));
-        router.push("/dashboard");
+        // Rediriger vers la page de confirmation d'envoi d'email
+        // pour informer l'utilisateur qu'un email de vérification a été envoyé
+        router.push("/email-sent");
         router.refresh();
       }
     } catch (error) {

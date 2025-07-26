@@ -1,4 +1,6 @@
 {
+  "HomePage": {},
+
   "Navbar": {
     "about": "À propos",
     "features": "Fonctionnalités",
@@ -14,9 +16,13 @@
   "HeroSection": {
     "introducing": "Découvrez l'assistant Fiscally AI",
     "title": "Finance intelligente, facturation intuitive, budget optimisé",
-    "subtitle": "Automatisez vos processus financiers et concentrez-vous sur l’essentiel, planifiez vos projets et voyez votre patrimoine évoluer en temps réel.",
+    "subtitle": "Automatisez vos processus financiers et concentrez-vous sur l'essentiel, planifiez vos projets et voyez votre patrimoine évoluer en temps réel.",
     "getStarted": "Commencer",
-    "requestDemo": "Demander une démo"
+    "requestDemo": "Demander une démo",
+    "meetCustomers": "Rencontrez nos clients"
+  },
+  "Footer": {
+    "rightsReserved": "Tous droits réservés"
   },
 
   "ContactPage": {
@@ -98,8 +104,43 @@
       "emailInvalid": "Adresse e-mail invalide",
       "passwordMinLength": "Le mot de passe doit comporter au moins 8 caractères",
       "passwordsNoMatch": "Les mots de passe ne correspondent pas",
+      "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
       "passwordRequired": "Le mot de passe est requis"
     },
-    "orContinueWith": "Ou continuer avec"
+    "orContinueWith": "Ou continuer avec",
+    "newPassword": "Nouveau mot de passe",
+    "enterNewPassword": "Saisissez votre nouveau mot de passe",
+    "confirmNewPassword": "Confirmez votre nouveau mot de passe",
+    "resetting": "Réinitialisation...",
+    "passwordResetSuccess": "Mot de passe réinitialisé avec succès",
+    "invalidResetLink": "Lien de réinitialisation invalide",
+    "invalidOrExpiredToken": "Token de réinitialisation invalide ou expiré",
+    "requestNewLink": "Demander un nouveau lien",
+    "emailVerificationSent": "Email de vérification envoyé",
+    "emailVerified": "Email vérifié avec succès",
+    "emailVerificationError": "Échec de la vérification de l'email",
+    "resendVerification": "Renvoyer l'email de vérification",
+    "emailVerificationTitle": "Vérification d'email",
+    "verifyingEmail": "Vérification de votre adresse email",
+    "verifyEmail": "Vérification en cours",
+    "verifyEmailDescription": "Vérification de votre lien email",
+    "checkYourEmail": "Vérifiez votre boîte email",
+    "emailSentTitle": "Email de vérification envoyé !",
+    "emailSentMessage": "Nous avons envoyé un email de vérification à votre adresse.",
+    "emailSentInstructions": "Cliquez sur le lien dans l'email pour vérifier votre compte et accéder au tableau de bord.",
+    "sending": "Envoi en cours...",
+    "needHelp": "Besoin d'aide ?",
+    "contactSupport": "Contacter le support",
+    "enterEmailForReset": "Saisissez votre email pour recevoir un lien de réinitialisation",
+    "rememberedPassword": "Vous vous souvenez de votre mot de passe ?",
+    "verifyingEmailProgress": "Vérification de votre email en cours...",
+    "emailVerifiedSuccess": "Votre email a été vérifié avec succès. Vous pouvez maintenant vous connecter pour accéder à votre tableau de bord.",
+    "verificationLinkExpired": "Lien de vérification expiré",
+    "verificationLinkExpiredMessage": "Votre lien de vérification a expiré. Veuillez en demander un nouveau.",
+    "verificationFailed": "Échec de la vérification",
+    "verificationFailedMessage": "Une erreur s'est produite lors de la vérification de votre email. Veuillez réessayer ou demander un nouveau lien de vérification.",
+    "backToLogin": "Retour à la connexion",
+    "sending": "Envoi en cours...",
+    "pleaseWaitVerifying": "Veuillez patienter pendant que nous vérifions votre adresse email."
   }
 }

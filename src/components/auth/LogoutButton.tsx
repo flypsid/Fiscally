@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { authClient } from "@/lib/auth-client";
@@ -29,7 +28,7 @@ export function LogoutButton({
   children,
 }: LogoutButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+
   const locale = useLocale();
   const t = useTranslations("Navbar");
 
@@ -39,12 +38,10 @@ export function LogoutButton({
     try {
       await authClient.signOut();
       toast.success("Successfully logged out");
-      // Redirect to home page with current locale
-      router.push(`/${locale}`);
-      router.refresh();
+      // Force a full page reload to ensure session is cleared
+      window.location.href = `/${locale}`;
     } catch {
       toast.error("Failed to log out");
-    } finally {
       setIsLoading(false);
     }
   };

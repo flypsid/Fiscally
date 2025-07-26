@@ -2,9 +2,9 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { ForgotPasswordForm } from "@/components/auth/ForgotPasswordForm";
+import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm";
 
-export default function ForgotPasswordPage() {
+export default function ResetPasswordPage() {
   const t = useTranslations("Auth");
 
   return (
@@ -25,17 +25,17 @@ export default function ForgotPasswordPage() {
             <h1 className="mb-1 mt-4 text-xl font-semibold">
               {t("resetPassword")}
             </h1>
-            <p className="text-sm">{t("enterEmailForReset")}</p>
+            <p className="text-sm">Enter your new password</p>
           </div>
 
           <div className="mt-6">
-            <ForgotPasswordForm />
+            <ResetPasswordForm />
           </div>
         </div>
 
         <div className="p-3">
           <p className="text-accent-foreground text-center text-sm">
-            {t("rememberedPassword")}
+            Remembered your password?
             <Button asChild variant="link" className="px-2">
               <Link href="/login">{t("signIn")}</Link>
             </Button>

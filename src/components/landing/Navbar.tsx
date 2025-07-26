@@ -7,11 +7,12 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
 
 export const HeroHeader = () => {
   const t = useTranslations("Navbar");
+  const locale = useLocale();
   const { isAuthenticated, isLoading } = useAuth();
   const menuItems = [
     { name: t("about"), href: "#link" },
@@ -50,7 +51,7 @@ export const HeroHeader = () => {
                 className="flex items-center space-x-2"
               >
                 <Image
-                  src="/images/flogo-nobg.png"
+                  src="/images/logo.png"
                   alt="Fiscally Logo"
                   width={40}
                   height={40}
@@ -113,7 +114,15 @@ export const HeroHeader = () => {
                 ) : isAuthenticated ? (
                   <div className="flex flex-col gap-2 sm:flex-row sm:ml-4">
                     <Button asChild variant="default" size="sm">
-                      <Link href="/dashboard">{t("dashboard")}</Link>
+                      <Link
+                        href={
+                          locale === "fr"
+                            ? "/fr/tableau-de-bord"
+                            : "/en/dashboard"
+                        }
+                      >
+                        {t("dashboard")}
+                      </Link>
                     </Button>
                   </div>
                 ) : (

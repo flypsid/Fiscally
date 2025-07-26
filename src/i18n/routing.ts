@@ -28,6 +28,14 @@ export const routing = defineRouting({
       en: "/forgot-password",
       fr: "/mot-de-passe-oublie",
     },
+    "/reset-password": {
+      en: "/reset-password",
+      fr: "/reinitialiser-mot-de-passe",
+    },
+    "/verify-email": {
+      en: "/verify-email",
+      fr: "/verifier-email",
+    },
     "/contact": {
       en: "/contact-us",
       fr: "/contactez-nous",
