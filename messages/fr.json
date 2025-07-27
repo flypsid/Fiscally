@@ -55,6 +55,22 @@
   "Dashboard": {
     "body": {},
     "nav": {},
+    "profile": {
+      "title": "Profil utilisateur",
+      "personalInfo": "Informations personnelles",
+      "name": "Nom",
+      "email": "Adresse e-mail",
+      "avatar": "Photo de profil",
+      "changeAvatar": "Changer la photo",
+      "removeAvatar": "Supprimer la photo",
+      "save": "Enregistrer les modifications",
+      "cancel": "Annuler",
+      "updateSuccess": "Profil mis à jour avec succès",
+      "updateError": "Erreur lors de la mise à jour du profil",
+      "uploadError": "Erreur lors du téléchargement de l'image",
+      "namePlaceholder": "Votre nom complet",
+      "emailPlaceholder": "votre@email.com"
+    },
     "usermenu": {
       "account": "Compte",
       "billing": "Facturation",

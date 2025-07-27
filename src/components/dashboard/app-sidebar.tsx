@@ -154,7 +154,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const userData = {
     name: user?.name || "Utilisateur",
     email: user?.email || "email@example.com",
-    avatar: "/avatars/shadcn.jpg", // Avatar par défaut pour le moment
+    avatar: user?.image || "/avatars/default-avatar.svg",
   };
 
   return (
