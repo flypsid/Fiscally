@@ -34,12 +34,12 @@ export function ForgotPasswordForm() {
       });
 
       if (error) {
-        toast.error(error.message || "Failed to send reset email");
+        toast.error(error.message || t("failedToSendResetEmail"));
         return;
       }
 
       setIsSubmitted(true);
-      toast.success("Password reset email sent! Check your inbox.");
+      toast.success(t("passwordResetEmailSent"));
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {};
@@ -50,7 +50,7 @@ export function ForgotPasswordForm() {
         });
         setErrors(fieldErrors);
       } else {
-        toast.error("Failed to send reset email");
+        toast.error(t("failedToSendResetEmail"));
       }
     } finally {
       setIsLoading(false);
@@ -62,11 +62,10 @@ export function ForgotPasswordForm() {
       <div className="text-center space-y-4">
         <div className="p-4 bg-green-50 border border-green-200 rounded-md">
           <h3 className="text-sm font-medium text-green-800">
-            Reset email sent!
+            {t("resetEmailSent")}
           </h3>
           <p className="text-sm text-green-700 mt-1">
-            We&apos;ve sent a password reset link to {email}. Please check your
-            inbox and follow the instructions.
+            {t("resetEmailSentMessage", { email })}
           </p>
         </div>
         <Button
@@ -76,7 +75,7 @@ export function ForgotPasswordForm() {
             setEmail("");
           }}
         >
-          Send another email
+          {t("sendAnotherEmail")}
         </Button>
       </div>
     );
@@ -106,7 +105,7 @@ export function ForgotPasswordForm() {
       </div>
 
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Sending..." : t("resetPassword")}
+        {isLoading ? t("sending") : t("resetPassword")}
       </Button>
     </form>
   );

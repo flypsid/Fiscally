@@ -56,9 +56,21 @@ Cette implémentation ajoute une fonctionnalité complète de récupération de 
 
 ### Variables d'Environnement
 ```env
-RESEND_API_KEY=your_resend_api_key_here
-BETTER_AUTH_SECRET=your_secret_here
+# Resend API pour l'envoi d'emails
+RESEND_API_KEY=re_xxxxxxxxxx
+
+# Better Auth Configuration
+BETTER_AUTH_SECRET=your-secret-key-min-32-chars
 BETTER_AUTH_URL=http://localhost:3000
+
+# OAuth Providers (optionnel)
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+DISCORD_CLIENT_ID=your_discord_client_id
+DISCORD_CLIENT_SECRET=your_discord_client_secret
+
+# Database
+DATABASE_URL=postgresql://username:password@host/database
 ```
 
 ### Dépendances
@@ -78,23 +90,34 @@ BETTER_AUTH_URL=http://localhost:3000
 
 ### Vérification d'Email
 1. Lors de l'inscription, un email de vérification est automatiquement envoyé
-2. L'utilisateur clique sur le lien dans l'email
-3. Est redirigé vers `/verify-email?token=...`
-4. La vérification se fait automatiquement
-5. L'utilisateur est connecté et redirigé vers le dashboard
+2. L'utilisateur est redirigé vers `/verify-email` avec instructions
+3. L'utilisateur clique sur le lien dans l'email
+4. La vérification se fait automatiquement avec `autoSignInAfterVerification: true`
+5. L'utilisateur est automatiquement connecté après vérification
+6. Redirection automatique vers le tableau de bord
+7. **Détection de locale** : L'email est envoyé dans la langue appropriée basée sur l'URL de la requête
 
 ## Sécurité
 
-- **Tokens sécurisés** : Générés par Better Auth
-- **Expiration** : Tokens de réinitialisation expirent en 1 heure
-- **Validation** : Schémas Zod pour tous les formulaires
+- **Tokens sécurisés** : Générés par Better Auth avec cryptographie robuste
+- **Expiration** : Tokens de réinitialisation et vérification expirent en 1 heure
+- **Validation** : Schémas Zod pour tous les formulaires côté client et serveur
 - **Gestion d'erreurs** : Messages d'erreur appropriés sans révéler d'informations sensibles
+- **Middleware spécial** : Route `/verify-email` accessible même avec session active
+- **Connexion automatique sécurisée** : Après vérification d'email uniquement
+- **Logs détaillés** : Traçabilité complète pour le debugging
 
 ## Internationalisation
 
 - **Emails bilingues** : Templates adaptés selon la langue de l'utilisateur
 - **Interface utilisateur** : Toutes les pages et messages traduits
 - **Routes localisées** : URLs différentes selon la langue
+- **Détection automatique** : Fonction `getLocaleFromRequest` qui analyse :
+  - Paramètre `callbackURL` dans la requête
+  - Premier segment du chemin de l'URL
+  - Header `Referer` comme solution de repli
+  - Défaut : anglais si aucune locale détectée
+- **Gestion d'erreurs robuste** : Try-catch pour l'analyse d'URL
 
 ## Personnalisation
 

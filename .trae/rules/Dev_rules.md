@@ -26,6 +26,14 @@
 - **Notifications**: Sonner 2.0.6
 - **Drag & Drop**: @dnd-kit/core 6.3.1 (avec sortable et modifiers)
 
+### 📧 Email & Communication (Fiscally)
+
+- **Email Provider**: Resend pour les emails transactionnels
+- **Templates**: React Email pour les templates d'emails
+- **Internationalisation**: Emails bilingues (FR/EN) avec détection automatique
+- **Types**: Vérification d'email et récupération de mot de passe
+- **Sécurité**: Tokens avec expiration et validation Better Auth
+
 ### 📥 Validation & Schema Definition (Fiscally)
 
 - **Zod 3.25.76**: Obligatoire pour toute validation (formulaires, API, modèles)
@@ -221,13 +229,52 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/db/drizzle";
 import { nextCookies } from "better-auth/next-js";
+import {
+  sendForgotPasswordEmail,
+  sendVerificationEmail,
+  getLocaleFromRequest,
+} from "@/lib/email";
 
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET!,
   baseURL: process.env.BETTER_AUTH_URL!,
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: false,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }, request) => {
+      const locale = getLocaleFromRequest(request);
+      await sendForgotPasswordEmail({
+        to: user.email,
+        userName: user.name || user.email.split("@")[0],
+        resetUrl: url,
+        locale,
+      });
+    },
+    resetPasswordTokenExpiresIn: 3600, // 1 hour
+  },
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url }, request) => {
+      const locale = getLocaleFromRequest(request);
+      await sendVerificationEmail({
+        to: user.email,
+        userName: user.name || user.email.split("@")[0],
+        verificationUrl: url,
+        locale,
+      });
+    },
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    expiresIn: 3600, // 1 hour
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+    discord: {
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+    },
   },
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -277,17 +324,36 @@ Tables Better Auth implémentées :
 
 Tous les endpoints Better Auth gérés automatiquement :
 
-- `/api/auth/sign-in`
-- `/api/auth/sign-up`
-- `/api/auth/sign-out`
-- `/api/auth/session`
+- `/api/auth/sign-in` - Connexion email/password
+- `/api/auth/sign-up` - Inscription avec vérification email
+- `/api/auth/sign-out` - Déconnexion
+- `/api/auth/session` - Validation de session
+- `/api/auth/verify-email` - Vérification d'email avec connexion auto
+- `/api/auth/forgot-password` - Demande de récupération
+- `/api/auth/reset-password` - Réinitialisation de mot de passe
+- `/api/auth/sign-in/google` - Authentification Google OAuth
+- `/api/auth/sign-in/discord` - Authentification Discord OAuth
+- `/api/auth/callback/google` - Callback Google OAuth
+- `/api/auth/callback/discord` - Callback Discord OAuth
 
 ### Variables d'Environnement Requises
 
 ```env
+# Better Auth
 BETTER_AUTH_SECRET=your-32-char-secret
 BETTER_AUTH_URL=http://localhost:3000
+
+# Database
 DATABASE_URL=postgresql://user:pass@host/db
+
+# Email (Resend)
+RESEND_API_KEY=re_your_resend_api_key
+
+# OAuth Providers
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+DISCORD_CLIENT_ID=your_discord_client_id
+DISCORD_CLIENT_SECRET=your_discord_client_secret
 ```
 
 ### Bonnes Pratiques Implémentées
@@ -298,6 +364,40 @@ DATABASE_URL=postgresql://user:pass@host/db
 - ✅ **UX**: États de chargement et redirections
 - ✅ **i18n**: Messages d'erreur traduits
 - ✅ **Performance**: Middleware optimisé
+- ✅ **Email Verification**: Vérification d'email obligatoire avec connexion automatique
+- ✅ **Password Reset**: Récupération de mot de passe avec emails bilingues
+- ✅ **Social Auth**: Fournisseurs Google et Discord configurés
+- ✅ **Locale Detection**: Détection automatique de la langue pour les emails
+- ✅ **Email Templates**: Templates Resend bilingues (FR/EN)
+
+### 📧 Système d'Email (Resend)
+
+**Fichier**: `src/lib/email.ts`
+
+**Fonctionnalités**:
+- **Provider**: Resend pour l'envoi d'emails transactionnels
+- **Templates**: Emails bilingues (FR/EN) avec détection automatique de locale
+- **Types d'emails**: Vérification d'email et récupération de mot de passe
+- **Sécurité**: Validation des tokens avec expiration (1 heure)
+- **UX**: Connexion automatique après vérification d'email
+
+**Templates disponibles**:
+- `src/components/emails/VerificationEmail.tsx` - Email de vérification
+- `src/components/emails/ForgotPasswordEmail.tsx` - Email de récupération
+
+**Configuration**:
+```typescript
+// Détection automatique de locale depuis la requête
+const locale = getLocaleFromRequest(request);
+
+// Envoi d'email avec template bilingue
+await sendVerificationEmail({
+  to: user.email,
+  userName: user.name || user.email.split("@")[0],
+  verificationUrl: url,
+  locale, // 'fr' ou 'en'
+});
+```
 
 ---
 

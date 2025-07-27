@@ -181,7 +181,26 @@ export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL!,
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: false, // Configurable selon les besoins
+    requireEmailVerification: true, // ✅ Activé pour sécurité renforcée
+    autoSignInAfterVerification: true, // ✅ UX améliorée
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url, token }, request) => {
+      // Envoi d'email via Resend avec détection de locale
+      await sendVerificationEmail(user.email, url, request);
+    },
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+    discord: {
+      clientId: process.env.DISCORD_CLIENT_ID!,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+    },
   },
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -208,10 +227,19 @@ Le schéma utilise les meilleures pratiques de sécurité :
 ```env
 # Better Auth Configuration
 BETTER_AUTH_SECRET=your-secret-key-min-32-chars
-BETTER_AUTH_URL=${NEXT_PUBLIC_URL}
+BETTER_AUTH_URL=http://localhost:3000
 
 # Database (Neon PostgreSQL)
 DATABASE_URL=postgresql://username:password@host/database
+
+# Email Service (Resend)
+RESEND_API_KEY=re_xxxxxxxxxx
+
+# OAuth Providers (optionnel)
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+DISCORD_CLIENT_ID=your_discord_client_id
+DISCORD_CLIENT_SECRET=your_discord_client_secret
 
 # Application
 NEXT_PUBLIC_URL=http://localhost:3000
@@ -222,9 +250,12 @@ NODE_ENV=development|production
 
 - ✅ **BETTER_AUTH_SECRET**: Minimum 32 caractères, généré aléatoirement
 - ✅ **DATABASE_URL**: Connexion sécurisée SSL vers Neon
+- ✅ **RESEND_API_KEY**: Clé API sécurisée pour l'envoi d'emails
+- ✅ **OAuth Secrets**: Clés client/secret pour Google et Discord
 - ✅ **Jamais de secrets** dans le code source ou les commits
 - ✅ Utilisation de `.env.local` pour le développement
 - ✅ Variables d'environnement chiffrées en production
+- ✅ **Rotation régulière** des clés API et secrets
 
 ## Stack Technologique Sécurisé
 

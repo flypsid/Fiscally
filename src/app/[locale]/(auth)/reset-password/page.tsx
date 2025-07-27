@@ -25,7 +25,7 @@ export default function ResetPasswordPage() {
             <h1 className="mb-1 mt-4 text-xl font-semibold">
               {t("resetPassword")}
             </h1>
-            <p className="text-sm">Enter your new password</p>
+            <p className="text-sm">{t("enterNewPasswordDescription")}</p>
           </div>
 
           <div className="mt-6">
@@ -35,7 +35,7 @@ export default function ResetPasswordPage() {
 
         <div className="p-3">
           <p className="text-accent-foreground text-center text-sm">
-            Remembered your password?
+            {t("rememberedPassword")}
             <Button asChild variant="link" className="px-2">
               <Link href="/login">{t("signIn")}</Link>
             </Button>

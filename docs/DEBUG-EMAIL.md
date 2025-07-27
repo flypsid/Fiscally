@@ -1,165 +1,125 @@
-# Guide de Diagnostic - Problème d'Envoi d'Email
+# Configuration Email - Fiscally
 
-## Problème Identifié
+## État Actuel
 
-L'inscription d'utilisateur réussit (utilisateur créé en base) mais l'email de vérification n'est pas envoyé, causant un état incohérent.
+✅ **Système d'email fonctionnel** avec Better Auth et Resend
+✅ **Vérification d'email** activée avec connexion automatique
+✅ **Détection de locale améliorée** pour les emails multilingues
+✅ **Gestion d'erreurs robuste** avec logs détaillés
 
-## Solutions Appliquées
+## Configuration Actuelle
 
-### 1. Amélioration des Logs
+### Variables d'Environnement Requises
 
-- ✅ Ajout de logs détaillés dans `sendVerificationEmail()`
-- ✅ Ajout de logs dans la configuration Better Auth
-- ✅ Gestion d'erreur améliorée pour éviter l'échec silencieux
+```env
+# Email Configuration (Resend)
+RESEND_API_KEY=re_your_resend_api_key_here
 
-### 2. Correction du Flux d'Inscription
+# Better Auth Configuration
+BETTER_AUTH_SECRET=your-32-character-secret-key-here
+BETTER_AUTH_URL=http://localhost:3000
 
-- ✅ Redirection vers `/verify-email` au lieu de `/dashboard` après inscription
-- ✅ Gestion d'erreur non-bloquante pour l'envoi d'email
-
-### 3. Corrections des Traductions
-
-- ✅ Nettoyage des doublons dans `messages/fr.json`
-- ✅ Ajout des traductions manquantes
-
-## 🔍 Diagnostic Complet
-
-### ✅ PROBLÈME IDENTIFIÉ : Domaine Non Vérifié
-
-**Statut** : Le script de test révèle que le domaine `fiscally.app` n'est pas vérifié dans Resend.
-
-**Erreur Resend** :
-
+# Database Configuration
+DATABASE_URL=postgresql://username:password@host/database
 ```
-❌ Erreur Resend: {
-  statusCode: 403,
-  error: 'The fiscally.app domain is not verified. Please, add and verify your domain on https://resend.com/domains',
-  name: 'validation_error'
+
+### Fonctionnalités Implémentées
+
+- **Vérification d'email** : `requireEmailVerification: true`
+- **Connexion automatique** : `autoSignInAfterVerification: true`
+- **Emails bilingues** : Détection automatique de la locale
+- **Domaine vérifié** : `noreply@deff-fondation.com`
+- **Expiration des tokens** : 1 heure pour sécurité optimale
+
+## Détection de Locale Améliorée
+
+La fonction `getLocaleFromRequest` dans `src/lib/email.ts` détecte automatiquement la langue de l'utilisateur :
+
+1. **Paramètre callbackURL** : Extrait la locale du paramètre de redirection
+2. **Chemin de l'URL** : Analyse le premier segment du chemin
+3. **Header Referer** : Solution de repli basée sur la page de provenance
+4. **Défaut** : Anglais si aucune locale détectée
+
+```typescript
+export function getLocaleFromRequest(request?: Request): "en" | "fr" {
+  // Logique de détection multicouche
+  // Voir src/lib/email.ts pour l'implémentation complète
 }
 ```
 
-### 1. Vérifier les Variables d'Environnement
+## Flux d'Authentification
 
-Assurez-vous que votre fichier `.env.local` contient :
+### Inscription avec Vérification
 
-```env
-# Resend API
-RESEND_API_KEY=re_xxxxxxxxxx
+1. **Inscription** : L'utilisateur s'inscrit via `/register`
+2. **Email automatique** : Envoi immédiat de l'email de vérification
+3. **Redirection** : Vers `/verify-email` avec instructions
+4. **Vérification** : Clic sur le lien dans l'email
+5. **Connexion automatique** : L'utilisateur est connecté après vérification
+6. **Redirection finale** : Vers le tableau de bord
 
-# Better Auth
-BETTER_AUTH_SECRET=your-secret-key-min-32-chars
-BETTER_AUTH_URL=http://localhost:3000
+### Gestion des Erreurs
 
-# Database
-DATABASE_URL=postgresql://...
+- **Logs détaillés** : Chaque étape est loggée pour le debugging
+- **Gestion gracieuse** : Les erreurs d'email n'empêchent pas l'inscription
+- **Retry automatique** : Possibilité de renvoyer l'email de vérification
+- **Expiration sécurisée** : Tokens valides 1 heure seulement
+
+## Middleware et Routes
+
+Le middleware `src/middleware.ts` gère spécialement la route `/verify-email` :
+
+```typescript
+// Traitement spécial pour verify-email - permet l'accès même avec session active
+const isVerifyEmailRoute = request.nextUrl.pathname.includes("/verify-email");
+
+// Redirection vers dashboard si route d'auth avec session (sauf verify-email)
+if (isAuthRoute && session && !isVerifyEmailRoute) {
+  // Redirection vers dashboard
+}
 ```
 
-✅ **Résultat** : Toutes les variables sont présentes dans `.env`
+## Dépannage
 
-### 2. Tester l'Envoi d'Email
+### Vérification des Logs
 
-Exécutez le script de test :
+Recherchez ces messages dans la console :
 
-```bash
-node test-email.js
-```
-
-### 3. Vérifier les Logs
-
-Après une tentative d'inscription, vérifiez les logs dans la console pour :
-
+✅ **Succès** :
 - `"Better Auth: Attempting to send verification email for user:"`
 - `"Starting email verification send process:"`
 - `"Email HTML rendered successfully"`
 - `"Verification email sent successfully:"`
 
-Ou des erreurs comme :
-
+❌ **Erreurs** :
 - `"Resend API error:"`
 - `"Better Auth: Failed to send verification email"`
+- `"Error parsing URL in getLocaleFromRequest:"`
 
-### 4. 🚨 SOLUTIONS
+### Tests Recommandés
 
-#### ✅ Solution Immédiate : Utiliser un Email de Test
+```bash
+# Vérification TypeScript
+npx tsc --noEmit
 
-Pour tester rapidement, modifiez temporairement `src/lib/email.ts` :
-
-```typescript
-// Remplacez temporairement dans sendVerificationEmail :
-const { data, error } = await resend.emails.send({
-  from: "onboarding@resend.dev", // ← Email de test Resend
-  to,
-  subject: getSubject("emailVerification", locale),
-  html,
-});
+# Test de l'inscription
+# 1. Aller sur /register
+# 2. Créer un compte
+# 3. Vérifier les logs
+# 4. Vérifier la réception de l'email
+# 5. Cliquer sur le lien de vérification
 ```
 
-#### 🔧 Solution Permanente : Vérifier le Domaine
+### Configuration Resend
 
-1. **Connectez-vous à Resend Dashboard** : https://resend.com/domains
-2. **Ajoutez le domaine** `fiscally.app`
-3. **Configurez les enregistrements DNS** selon les instructions Resend
-4. **Attendez la vérification** (peut prendre quelques heures)
+- **Domaine vérifié** : `deff-fondation.com` (temporaire)
+- **Expéditeur** : `noreply@deff-fondation.com`
+- **Limite** : 100 emails/jour (plan gratuit)
+- **Templates** : Bilingues (français/anglais)
 
-#### 🏃‍♂️ Solution Alternative : Domaine Personnel
+## Prochaines Améliorations
 
-Si vous possédez un autre domaine vérifié :
-
-```typescript
-// Dans src/lib/email.ts, changez :
-from: 'noreply@votre-domaine-verifie.com',
-```
-
-### 5. Problèmes Courants
-
-#### ✅ A. Domaine Non Vérifié (RÉSOLU)
-
-- **Cause** : `fiscally.app` non vérifié dans Resend
-- **Solution** : Voir solutions ci-dessus
-
-#### B. Clé API Resend Invalide
-
-- Vérifiez que votre clé API Resend est correcte
-- Régénérez une nouvelle clé si nécessaire
-
-#### C. Limites de Resend
-
-- Plan gratuit : 100 emails/jour
-- Vérifiez votre quota
-- En mode sandbox, vous ne pouvez envoyer qu'à votre email vérifié
-
-### 5. Test Manuel
-
-Pour tester manuellement l'envoi d'email :
-
-1. Créez un compte
-2. Vérifiez les logs de la console
-3. Si aucun email n'est reçu, utilisez le bouton "Renvoyer l'email de vérification" sur `/verify-email`
-
-### 6. Solution Temporaire
-
-Si le problème persiste, vous pouvez temporairement désactiver la vérification d'email :
-
-Dans `src/lib/auth.ts` :
-
-```javascript
-emailAndPassword: {
-  enabled: true,
-  requireEmailVerification: false, // Temporairement false
-  // ...
-},
-```
-
-## Prochaines Étapes
-
-1. Exécutez le script de test
-2. Tentez une nouvelle inscription
-3. Vérifiez les logs
-4. Rapportez les erreurs spécifiques trouvées
-
-## Nettoyage
-
-Après résolution, supprimez :
-
-- `test-email.js`
-- `DEBUG-EMAIL.md`
+- [ ] Migration vers domaine `fiscally.app` vérifié
+- [ ] Ajout de templates email personnalisés
+- [ ] Monitoring des taux de délivrabilité
+- [ ] Support de langues supplémentaires
