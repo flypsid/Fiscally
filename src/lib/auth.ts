@@ -51,8 +51,6 @@ export const auth = betterAuth({
           user.email,
           error
         );
-        // Ne pas faire échouer l'inscription si l'email ne peut pas être envoyé
-        // L'utilisateur pourra demander un nouvel email de vérification
       }
     },
     sendOnSignUp: true,

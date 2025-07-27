@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import Link from "next/link";
 export function EmailSentConfirmation() {
   const [isResending, setIsResending] = useState(false);
   const t = useTranslations("Auth");
+  const locale = useLocale();
   const { user } = useAuth();
 
   const handleResendVerification = async () => {
@@ -24,7 +25,7 @@ export function EmailSentConfirmation() {
     try {
       const { error } = await authClient.sendVerificationEmail({
         email: user.email,
-        callbackURL: "/verify-email"
+        callbackURL: `/${locale}/verify-email`
       });
       
       if (error) {
@@ -74,7 +75,7 @@ export function EmailSentConfirmation() {
         </Button>
         
         <Button asChild variant="ghost" className="w-full">
-          <Link href="/login">{t("backToLogin")}</Link>
+          <Link href={`/${locale}/login`}>{t("backToLogin")}</Link>
         </Button>
       </div>
     </div>

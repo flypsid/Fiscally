@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,7 @@ export function RegisterForm() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
+  const locale = useLocale();
   const t = useTranslations("Auth");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,7 +50,7 @@ export function RegisterForm() {
         toast.success(t("registerSuccess"));
         // Rediriger vers la page de confirmation d'envoi d'email
         // pour informer l'utilisateur qu'un email de vérification a été envoyé
-        router.push("/email-sent");
+        router.push(`/${locale}/email-sent`);
         router.refresh();
       }
     } catch (error) {

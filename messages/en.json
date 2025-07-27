@@ -142,6 +142,8 @@
     "verificationFailedMessage": "There was an error verifying your email. Please try again or request a new verification link.",
     "backToLogin": "Back to Login",
     "sending": "Sending...",
-    "pleaseWaitVerifying": "Please wait while we verify your email address."
+    "pleaseWaitVerifying": "Please wait while we verify your email address.",
+    "goToDashboard": "Go to Dashboard",
+    "goToHomepage": "Go to Homepage"
   }
 }

@@ -141,6 +141,8 @@
     "verificationFailedMessage": "Une erreur s'est produite lors de la vérification de votre email. Veuillez réessayer ou demander un nouveau lien de vérification.",
     "backToLogin": "Retour à la connexion",
     "sending": "Envoi en cours...",
-    "pleaseWaitVerifying": "Veuillez patienter pendant que nous vérifions votre adresse email."
+    "pleaseWaitVerifying": "Veuillez patienter pendant que nous vérifions votre adresse email.",
+    "goToDashboard": "Aller au tableau de bord",
+    "goToHomepage": "Aller à la page d'accueil"
   }
 }

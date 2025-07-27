@@ -29,7 +29,6 @@ export default async function middleware(request: NextRequest) {
     return pathname === route || pathname === `${route}/`;
   });
 
-  // Auth routes that should redirect to dashboard if user is already logged in
   const authRoutes = [
     "/login",
     "/connexion",
@@ -37,6 +36,9 @@ export default async function middleware(request: NextRequest) {
     "/inscription",
     "/forgot-password",
     "/mot-de-passe-oublie",
+    "/email-sent",
+    "/reset-password",
+    "/verify-email",
   ];
   const isAuthRoute = authRoutes.some((route) =>
     request.nextUrl.pathname.includes(route)
@@ -54,8 +56,11 @@ export default async function middleware(request: NextRequest) {
     return intlMiddleware(request);
   }
 
-  // Redirect to dashboard if accessing auth route with active session
-  if (isAuthRoute && session) {
+  // Special handling for verify-email route - allow it to process even with active session
+  const isVerifyEmailRoute = request.nextUrl.pathname.includes("/verify-email");
+
+  // Redirect to dashboard if accessing auth route with active session (except verify-email)
+  if (isAuthRoute && session && !isVerifyEmailRoute) {
     const locale = request.nextUrl.pathname.split("/")[1];
     const dashboardPath =
       locale === "fr" ? "/fr/tableau-de-bord" : "/en/dashboard";

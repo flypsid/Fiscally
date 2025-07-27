@@ -114,16 +114,40 @@ export async function sendVerificationEmail({
 export function getLocaleFromRequest(request?: Request): "en" | "fr" {
   if (!request) return "en";
 
-  // Essayer d'extraire la locale depuis l'URL
-  const url = new URL(request.url);
-  const pathSegments = url.pathname.split("/");
-  const locale = pathSegments[1]; // Assuming locale is the first segment
-
-  if (locale === "fr" || locale === "en") {
-    return locale;
+  try {
+    const url = new URL(request.url);
+    
+    // Vérifier d'abord les paramètres de requête (callbackURL)
+    const callbackURL = url.searchParams.get('callbackURL');
+    if (callbackURL) {
+      const callbackSegments = callbackURL.split('/');
+      const callbackLocale = callbackSegments[1];
+      if (callbackLocale === "fr" || callbackLocale === "en") {
+        return callbackLocale;
+      }
+    }
+    
+    // Ensuite vérifier le chemin de l'URL
+    const pathSegments = url.pathname.split("/");
+    const locale = pathSegments[1];
+    if (locale === "fr" || locale === "en") {
+      return locale;
+    }
+    
+    // Vérifier le header Referer comme fallback
+    const referer = request.headers.get('referer');
+    if (referer) {
+      const refererUrl = new URL(referer);
+      const refererSegments = refererUrl.pathname.split('/');
+      const refererLocale = refererSegments[1];
+      if (refererLocale === "fr" || refererLocale === "en") {
+        return refererLocale;
+      }
+    }
+  } catch (error) {
+    console.error('Error parsing URL in getLocaleFromRequest:', error);
   }
 
-  // Si la locale n'est pas trouvée dans l'URL, utiliser 'en' par défaut
-  // Ne pas se fier à Accept-Language car cela peut causer des incohérences
-  return "en"; // Default fallback
+  // Si la locale n'est pas trouvée, utiliser 'en' par défaut
+  return "en";
 }

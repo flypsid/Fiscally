@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { useRouter, useSearchParams } from "next/navigation";
+// import { toast } from "sonner"; // Removed toast usage
+import { useSearchParams } from "next/navigation";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ export function EmailVerificationHandler() {
   const [isResending, setIsResending] = useState(false);
   const t = useTranslations("Auth");
   const locale = useLocale();
-  const router = useRouter();
+
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const error = searchParams.get("error");
@@ -54,7 +54,6 @@ export function EmailVerificationHandler() {
         }
 
         setStatus("success");
-        toast.success(t("emailVerified"));
       } catch (error) {
         console.error("Email verification error:", error);
         setStatus("error");
@@ -62,13 +61,13 @@ export function EmailVerificationHandler() {
     };
 
     verifyEmail();
-  }, [token, error, t, router, locale]);
+  }, [token, error, t]);
 
   const handleResendVerification = async () => {
     // Get current user session to obtain email
     const { data: session } = await authClient.getSession();
     if (!session?.user?.email) {
-      toast.error(t("emailVerificationError"));
+      console.error("No user email found for resending verification");
       return;
     }
 
@@ -76,18 +75,17 @@ export function EmailVerificationHandler() {
     try {
       const { error } = await authClient.sendVerificationEmail({
         email: session.user.email,
-        callbackURL: "/verify-email",
+        callbackURL: `/${locale}/verify-email`,
       });
 
       if (error) {
-        toast.error(error.message || t("emailVerificationError"));
+        console.error("Resend verification error:", error.message || t("emailVerificationError"));
         return;
       }
 
-      toast.success(t("emailVerificationSent"));
+      console.log("Verification email sent successfully");
     } catch (error) {
       console.error("Resend verification error:", error);
-      toast.error(t("emailVerificationError"));
     } finally {
       setIsResending(false);
     }
@@ -114,6 +112,18 @@ export function EmailVerificationHandler() {
               <p className="text-gray-600 mb-4">
                 {t("emailVerifiedSuccess")}
               </p>
+              <div className="space-y-2">
+                <Button asChild className="w-full">
+                  <Link href={locale === "fr" ? "/fr/tableau-de-bord" : "/en/dashboard"}>
+                    {t("goToDashboard")}
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="w-full">
+                  <Link href={locale === "fr" ? "/fr" : "/en"}>
+                    {t("goToHomepage")}
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         );
