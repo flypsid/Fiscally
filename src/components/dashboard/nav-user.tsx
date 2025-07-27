@@ -99,7 +99,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link href="/profile">
+                <Link href="/dashboard/profile">
                   <IconUserCircle />
                   {t("account")}
                 </Link>

@@ -151,43 +151,42 @@ export function UserProfile() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-sm mx-auto space-y-4">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-xl font-bold tracking-tight">{t("title")}</h1>
+        <p className="text-muted-foreground text-sm">
           Manage your account settings and preferences.
         </p>
       </div>
       
-      <Separator />
-      
       <Card>
-        <CardHeader>
-          <CardTitle>{t("personalInfo")}</CardTitle>
-          <CardDescription>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg">{t("personalInfo")}</CardTitle>
+          <CardDescription className="text-sm">
             Update your personal information and profile picture.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-4">
           {/* Section Avatar */}
-          <div className="flex items-center space-x-4">
-            <Avatar className="h-20 w-20">
+          <div className="flex flex-col items-center space-y-3">
+            <Avatar className="h-16 w-16">
               <AvatarImage src={avatarUrl} alt={formData.name} />
-              <AvatarFallback className="text-lg">
-                {formData.name ? getInitials(formData.name) : <IconUser className="h-8 w-8" />}
+              <AvatarFallback className="text-sm">
+                {formData.name ? getInitials(formData.name) : <IconUser className="h-6 w-6" />}
               </AvatarFallback>
             </Avatar>
-            <div className="space-y-2">
-              <Label>{t("avatar")}</Label>
-              <div className="flex space-x-2">
+            <div className="text-center space-y-2">
+              <Label className="text-sm block">{t("avatar")}</Label>
+              <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isLoading}
+                  className="h-8 px-3 text-xs"
                 >
-                  <IconCamera className="mr-2 h-4 w-4" />
+                  <IconCamera className="mr-1 h-3 w-3" />
                   {t("changeAvatar")}
                 </Button>
                 {avatarUrl && (
@@ -197,8 +196,9 @@ export function UserProfile() {
                     size="sm"
                     onClick={handleRemoveAvatar}
                     disabled={isLoading}
+                    className="h-8 px-3 text-xs"
                   >
-                    <IconTrash className="mr-2 h-4 w-4" />
+                    <IconTrash className="mr-1 h-3 w-3" />
                     {t("removeAvatar")}
                   </Button>
                 )}
@@ -213,13 +213,13 @@ export function UserProfile() {
             </div>
           </div>
           
-          <Separator />
+          <Separator className="my-3" />
           
           {/* Formulaire */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="space-y-3">
               <div className="space-y-2">
-                <Label htmlFor="name">{t("name")}</Label>
+                <Label htmlFor="name" className="text-sm">{t("name")}</Label>
                 <Input
                   id="name"
                   type="text"
@@ -227,14 +227,15 @@ export function UserProfile() {
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   placeholder={t("namePlaceholder")}
                   disabled={isLoading}
+                  className="h-9"
                 />
                 {errors.name && (
-                  <p className="text-sm text-red-600">{errors.name}</p>
+                  <p className="text-xs text-red-600">{errors.name}</p>
                 )}
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="email">{t("email")}</Label>
+                <Label htmlFor="email" className="text-sm">{t("email")}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -242,17 +243,22 @@ export function UserProfile() {
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder={t("emailPlaceholder")}
                   disabled={isLoading}
+                  className="h-9"
                 />
                 {errors.email && (
-                  <p className="text-sm text-red-600">{errors.email}</p>
+                  <p className="text-xs text-red-600">{errors.email}</p>
                 )}
               </div>
             </div>
             
-            <div className="flex justify-end space-x-2">
+            <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2 pt-2">
+              <Button type="submit" disabled={isLoading} size="sm" className="h-8 px-3 text-sm flex-1 sm:flex-none">
+                {isLoading ? "Saving..." : t("save")}
+              </Button>
               <Button
                 type="button"
                 variant="outline"
+                size="sm"
                 onClick={() => {
                   setFormData({
                     name: user?.name || "",
@@ -262,11 +268,9 @@ export function UserProfile() {
                   setErrors({});
                 }}
                 disabled={isLoading}
+                className="h-8 px-3 text-sm flex-1 sm:flex-none"
               >
                 {t("cancel")}
-              </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Saving..." : t("save")}
               </Button>
             </div>
           </form>

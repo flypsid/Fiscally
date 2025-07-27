@@ -40,9 +40,9 @@ export const routing = defineRouting({
       en: "/contact-us",
       fr: "/contactez-nous",
     },
-    "/profile": {
-      en: "/profile",
-      fr: "/profil",
+    "/dashboard/profile": {
+      en: "/dashboard/profile",
+      fr: "/tableau-de-bord/profil",
     },
   },
 });
