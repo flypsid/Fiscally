@@ -31,17 +31,18 @@ export function LogoutButton({
 
   const locale = useLocale();
   const t = useTranslations("Navbar");
+  const tAuth = useTranslations("Auth");
 
   const handleLogout = async () => {
     setIsLoading(true);
 
     try {
       await authClient.signOut();
-      toast.success("Successfully logged out");
+      toast.success(tAuth("logoutSuccess"));
       // Force a full page reload to ensure session is cleared
       window.location.href = `/${locale}`;
     } catch {
-      toast.error("Failed to log out");
+      toast.error(tAuth("logoutError"));
       setIsLoading(false);
     }
   };

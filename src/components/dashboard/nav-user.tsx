@@ -8,6 +8,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react";
 import { LogoutButton } from "@/components/auth/LogoutButton";
+import { useTranslations } from "next-intl";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -36,6 +37,7 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const t = useTranslations("Dashboard.usermenu");
 
   return (
     <SidebarMenu>
@@ -83,21 +85,21 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <IconUserCircle />
-                Account
+                {t("account")}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <IconCreditCard />
-                Billing
+                {t("billing")}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <IconNotification />
-                Notifications
+                {t("notifications")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <LogoutButton variant="ghost" className="w-full justify-start p-2">
               <IconLogout className="mr-2 h-4 w-4" />
-              Log out
+              {t("logOut")}
             </LogoutButton>
           </DropdownMenuContent>
         </DropdownMenu>

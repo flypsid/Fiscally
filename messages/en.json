@@ -56,7 +56,12 @@
   "Dashboard": {
     "body": {},
     "nav": {},
-    "usermenu": {},
+    "usermenu": {
+      "account": "Account",
+      "billing": "Billing",
+      "notifications": "Notifications",
+      "logOut": "Log out"
+    },
     "notifications": {
       "title": "Notifications",
       "noNotifications": "No notifications",
@@ -84,6 +89,8 @@
     "signUpError": "Failed to create account. Please try again.",
     "signOutSuccess": "Signed out successfully!",
     "signOutError": "Failed to sign out. Please try again.",
+    "logoutSuccess": "Successfully logged out",
+    "logoutError": "Failed to log out",
     "forgotPassword": "Forgot your password?",
     "resetPassword": "Reset Password",
     "resetPasswordSuccess": "Password reset email sent! Check your inbox.",
