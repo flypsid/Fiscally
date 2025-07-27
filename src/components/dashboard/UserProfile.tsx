@@ -69,9 +69,23 @@ export function UserProfile() {
       const tempUrl = URL.createObjectURL(file);
       setAvatarUrl(tempUrl);
       
-      // TODO: Implémenter l'upload vers un service de stockage
-      // Pour l'instant, on simule juste l'upload
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Upload vers l'API d'avatar
+      const formData = new FormData();
+      formData.append('avatar', file);
+      
+      const response = await fetch('/api/user/avatar', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Upload failed');
+      }
+      
+      // Mettre à jour l'URL de l'avatar avec la réponse du serveur
+      setAvatarUrl(result.avatarUrl);
       
       toast.success("Avatar updated successfully");
     } catch (error) {
@@ -84,10 +98,31 @@ export function UserProfile() {
   };
 
   // Supprimer l'avatar
-  const handleRemoveAvatar = () => {
-    setAvatarUrl("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+  const handleRemoveAvatar = async () => {
+    try {
+      setIsLoading(true);
+      
+      const response = await fetch('/api/user/avatar', {
+        method: 'DELETE',
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to remove avatar');
+      }
+      
+      setAvatarUrl("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      
+      toast.success("Avatar removed successfully");
+    } catch (error) {
+      console.error("Avatar removal error:", error);
+      toast.error("Error removing avatar");
+    } finally {
+      setIsLoading(false);
     }
   };
 

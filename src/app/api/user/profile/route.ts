@@ -10,6 +10,7 @@ import { eq } from "drizzle-orm";
 const updateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").optional(),
   email: z.string().email("Invalid email address").optional(),
+  image: z.string().url("Invalid image URL").optional().nullable(),
 });
 
 // GET - Récupérer le profil utilisateur
@@ -22,6 +23,7 @@ export const GET = withAuth(async (request: NextRequest, session: Session, user:
           id: user.id,
           name: user.name,
           email: user.email,
+          image: user.image,
           createdAt: user.createdAt,
         },
       },
@@ -52,6 +54,9 @@ export const PUT = withValidationAndAuth(
       if (validatedData.email !== undefined) {
         updateData.email = validatedData.email;
       }
+      if (validatedData.image !== undefined) {
+        updateData.image = validatedData.image;
+      }
 
       // Mettre à jour la base de données
       const [updatedUser] = await db
@@ -62,6 +67,7 @@ export const PUT = withValidationAndAuth(
           id: user.id,
           name: user.name,
           email: user.email,
+          image: user.image,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
         });
