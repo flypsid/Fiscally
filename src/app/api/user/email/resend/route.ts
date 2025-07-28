@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/db/drizzle";
 import { user, verification } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { sendEmailChangeVerification } from "@/lib/email";
+import { sendEmailChangeVerification, getLocaleFromRequest } from "@/lib/email";
 import { generateId } from "lucia";
 
 export async function POST(request: NextRequest) {
@@ -66,12 +66,13 @@ export async function POST(request: NextRequest) {
     });
 
     // Envoyer l'email de vérification
+    const locale = getLocaleFromRequest(request);
     await sendEmailChangeVerification({
       to: currentUser.pendingEmail,
       userName: currentUser.name || "User",
       newEmail: currentUser.pendingEmail,
-      verificationUrl: `${process.env.NEXT_PUBLIC_APP_URL}/verify-email-change?token=${token}`,
-      locale: "fr", // TODO: Récupérer la locale de l'utilisateur
+      verificationUrl: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/verify-email-change?token=${token}`,
+      locale,
     });
 
     return NextResponse.json({

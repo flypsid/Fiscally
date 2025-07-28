@@ -4,11 +4,23 @@ import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { z } from "zod";
-import { IconCamera, IconTrash, IconUser, IconMail, IconAlertTriangle } from "@tabler/icons-react";
+import {
+  IconCamera,
+  IconTrash,
+  IconUser,
+  IconMail,
+  IconAlertTriangle,
+} from "@tabler/icons-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -33,9 +45,11 @@ export function UserProfile() {
   const t = useTranslations("Dashboard.profile");
   const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [isLoading, setIsLoading] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(user?.image || null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(
+    user?.image || null
+  );
   const [formData, setFormData] = useState<ProfileFormData>({
     name: user?.name || "",
   });
@@ -44,7 +58,9 @@ export function UserProfile() {
     currentPassword: "",
   });
   const [errors, setErrors] = useState<Partial<ProfileFormData>>({});
-  const [emailErrors, setEmailErrors] = useState<Partial<EmailChangeFormData>>({});
+  const [emailErrors, setEmailErrors] = useState<Partial<EmailChangeFormData>>(
+    {}
+  );
   const [showEmailChange, setShowEmailChange] = useState(false);
   const [pendingEmail, setPendingEmail] = useState(user?.pendingEmail || "");
 
@@ -59,7 +75,9 @@ export function UserProfile() {
   };
 
   // Gérer le changement d'avatar
-  const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -77,30 +95,30 @@ export function UserProfile() {
 
     try {
       setIsLoading(true);
-      
+
       // Créer une URL temporaire pour l'aperçu
       const tempUrl = URL.createObjectURL(file);
       setAvatarUrl(tempUrl);
-      
+
       // Upload vers l'API d'avatar
       const formData = new FormData();
-      formData.append('avatar', file);
-      
-      const response = await fetch('/api/user/avatar', {
-        method: 'POST',
+      formData.append("avatar", file);
+
+      const response = await fetch("/api/user/avatar", {
+        method: "POST",
         body: formData,
       });
-      
+
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.error || 'Upload failed');
+        throw new Error(result.error || "Upload failed");
       }
-      
+
       // Mettre à jour l'URL de l'avatar avec la réponse du serveur
       setAvatarUrl(result.avatarUrl);
-      
-      toast.success("Avatar updated successfully");
+
+      toast.success(t("avatarUpdatedSuccess"));
     } catch (error) {
       console.error("Avatar upload error:", error);
       toast.error(t("uploadError"));
@@ -114,26 +132,26 @@ export function UserProfile() {
   const handleRemoveAvatar = async () => {
     try {
       setIsLoading(true);
-      
-      const response = await fetch('/api/user/avatar', {
-        method: 'DELETE',
+
+      const response = await fetch("/api/user/avatar", {
+        method: "DELETE",
       });
-      
+
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to remove avatar');
+        throw new Error(result.error || "Failed to remove avatar");
       }
-      
+
       setAvatarUrl(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      
-      toast.success("Avatar removed successfully");
+
+      toast.success(t("avatarRemovedSuccess"));
     } catch (error) {
       console.error("Avatar removal error:", error);
-      toast.error("Error removing avatar");
+      toast.error(t("avatarRemoveError"));
     } finally {
       setIsLoading(false);
     }
@@ -141,33 +159,36 @@ export function UserProfile() {
 
   // Gérer les changements du formulaire de profil
   const handleInputChange = (field: keyof ProfileFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     // Effacer l'erreur pour ce champ
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }));
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
   };
 
   // Gérer les changements du formulaire de changement d'email
-  const handleEmailInputChange = (field: keyof EmailChangeFormData, value: string) => {
-    setEmailChangeData(prev => ({ ...prev, [field]: value }));
+  const handleEmailInputChange = (
+    field: keyof EmailChangeFormData,
+    value: string
+  ) => {
+    setEmailChangeData((prev) => ({ ...prev, [field]: value }));
     // Effacer l'erreur pour ce champ
     if (emailErrors[field]) {
-      setEmailErrors(prev => ({ ...prev, [field]: undefined }));
+      setEmailErrors((prev) => ({ ...prev, [field]: undefined }));
     }
   };
 
   // Soumettre le formulaire de profil
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     try {
       // Valider les données
       const validatedData = profileSchema.parse(formData);
       setErrors({});
-      
+
       setIsLoading(true);
-      
+
       // Appeler l'API de mise à jour du profil (sans email)
       const response = await fetch("/api/user/profile", {
         method: "PUT",
@@ -176,17 +197,17 @@ export function UserProfile() {
         },
         body: JSON.stringify({ name: validatedData.name }),
       });
-      
+
       if (!response.ok) {
-        throw new Error("Failed to update profile");
+        throw new Error(t("failedToUpdateProfile"));
       }
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         toast.success(t("updateSuccess"));
       } else {
-        throw new Error(result.error || "Update failed");
+        throw new Error(result.error || t("updateFailed"));
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -210,14 +231,14 @@ export function UserProfile() {
   // Soumettre le changement d'email
   const handleEmailChangeSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     try {
       // Valider les données
       const validatedData = emailChangeSchema.parse(emailChangeData);
       setEmailErrors({});
-      
+
       setIsLoading(true);
-      
+
       // Appeler l'API de changement d'email
       const response = await fetch("/api/user/email/change", {
         method: "POST",
@@ -226,20 +247,20 @@ export function UserProfile() {
         },
         body: JSON.stringify(validatedData),
       });
-      
+
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.error || "Failed to request email change");
+        throw new Error(result.error || t("failedToRequestEmailChange"));
       }
-      
+
       if (result.success) {
         toast.success(t("emailChangeRequested"));
         setPendingEmail(validatedData.newEmail);
         setShowEmailChange(false);
         setEmailChangeData({ newEmail: "", currentPassword: "" });
       } else {
-        throw new Error(result.error || "Email change failed");
+        throw new Error(result.error || t("emailChangeFailed"));
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -264,24 +285,24 @@ export function UserProfile() {
   const handleCancelEmailChange = async () => {
     try {
       setIsLoading(true);
-      
+
       const response = await fetch("/api/user/email/cancel", {
         method: "POST",
       });
-      
+
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.error || "Failed to cancel email change");
+        throw new Error(result.error || t("failedToCancelEmailChange"));
       }
-      
+
       if (result.success) {
         toast.success(t("emailChangeCancelled"));
         setPendingEmail("");
       }
     } catch (error) {
       console.error("Cancel email change error:", error);
-      toast.error("Error cancelling email change");
+      toast.error(t("emailChangeCancelError"));
     } finally {
       setIsLoading(false);
     }
@@ -291,23 +312,23 @@ export function UserProfile() {
   const handleResendVerification = async () => {
     try {
       setIsLoading(true);
-      
+
       const response = await fetch("/api/user/email/resend", {
         method: "POST",
       });
-      
+
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.error || "Failed to resend verification");
+        throw new Error(result.error || t("failedToResendVerification"));
       }
-      
+
       if (result.success) {
         toast.success(t("emailChangeVerificationSent"));
       }
     } catch (error) {
       console.error("Resend verification error:", error);
-      toast.error("Error resending verification");
+      toast.error(t("emailResendError"));
     } finally {
       setIsLoading(false);
     }
@@ -318,15 +339,15 @@ export function UserProfile() {
       <div>
         <h1 className="text-xl font-bold tracking-tight">{t("title")}</h1>
         <p className="text-muted-foreground text-sm">
-          Manage your account settings and preferences.
+          {t("accountDescription")}
         </p>
       </div>
-      
+
       <Card>
         <CardHeader className="pb-4">
           <CardTitle className="text-lg">{t("personalInfo")}</CardTitle>
           <CardDescription className="text-sm">
-            Update your personal information and profile picture.
+            {t("personalInfoDescription")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -335,7 +356,11 @@ export function UserProfile() {
             <Avatar className="h-16 w-16">
               <AvatarImage src={avatarUrl || undefined} alt={formData.name} />
               <AvatarFallback className="text-sm">
-                {formData.name ? getInitials(formData.name) : <IconUser className="h-6 w-6" />}
+                {formData.name ? (
+                  getInitials(formData.name)
+                ) : (
+                  <IconUser className="h-6 w-6" />
+                )}
               </AvatarFallback>
             </Avatar>
             <div className="text-center space-y-2">
@@ -375,14 +400,16 @@ export function UserProfile() {
               />
             </div>
           </div>
-          
+
           <Separator className="my-3" />
-          
+
           {/* Formulaire de profil */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-3">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm">{t("name")}</Label>
+                <Label htmlFor="name" className="text-sm">
+                  {t("name")}
+                </Label>
                 <Input
                   id="name"
                   type="text"
@@ -397,10 +424,15 @@ export function UserProfile() {
                 )}
               </div>
             </div>
-            
+
             <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2 pt-2">
-              <Button type="submit" disabled={isLoading} size="sm" className="h-8 px-3 text-sm flex-1 sm:flex-none">
-                {isLoading ? "Saving..." : t("save")}
+              <Button
+                type="submit"
+                disabled={isLoading}
+                size="sm"
+                className="h-8 px-3 text-sm flex-1 sm:flex-none"
+              >
+                {isLoading ? t("saving") : t("save")}
               </Button>
               <Button
                 type="button"
@@ -431,22 +463,22 @@ export function UserProfile() {
             {t("email")}
           </CardTitle>
           <CardDescription className="text-sm">
-            Manage your email address securely.
+            {t("emailDescription")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Email actuel */}
           <div className="space-y-2">
-            <Label className="text-sm">Current Email</Label>
+            <Label className="text-sm">{t("currentEmail")}</Label>
             <div className="p-3 bg-muted rounded-md">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                <span className="text-sm">{user?.email}</span>
+              <div className="space-y-2">
+                <span className="text-sm break-all">{user?.email}</span>
                 {!showEmailChange && !pendingEmail && (
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setShowEmailChange(true)}
-                    className="h-7 px-2 text-xs w-full sm:w-auto"
+                    className="h-7 px-2 mt-2 text-xs w-full"
                   >
                     {t("changeEmail")}
                   </Button>
@@ -461,11 +493,13 @@ export function UserProfile() {
               <IconAlertTriangle className="h-4 w-4" />
               <AlertDescription>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium">{t("pendingEmailChange")}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {t("pendingEmailMessage").replace("{email}", pendingEmail)}
+                  <p className="text-sm font-medium">
+                    {t("pendingEmailChange")}
                   </p>
-                  <div className="flex gap-2">
+                  <p className="text-xs text-muted-foreground">
+                    {t("pendingEmailMessage", { email: pendingEmail })}
+                  </p>
+                  <div className="flex flex-col gap-2">
                     <Button
                       variant="outline"
                       size="sm"
@@ -495,48 +529,65 @@ export function UserProfile() {
             <form onSubmit={handleEmailChangeSubmit} className="space-y-4">
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <Label htmlFor="newEmail" className="text-sm">{t("newEmail")}</Label>
+                  <Label htmlFor="newEmail" className="text-sm">
+                    {t("newEmail")}
+                  </Label>
                   <Input
                     id="newEmail"
                     type="email"
                     value={emailChangeData.newEmail}
-                    onChange={(e) => handleEmailInputChange("newEmail", e.target.value)}
+                    onChange={(e) =>
+                      handleEmailInputChange("newEmail", e.target.value)
+                    }
                     placeholder={t("newEmailPlaceholder")}
                     disabled={isLoading}
                     className="h-9"
                   />
                   {emailErrors.newEmail && (
-                    <p className="text-xs text-red-600">{emailErrors.newEmail}</p>
+                    <p className="text-xs text-red-600">
+                      {emailErrors.newEmail}
+                    </p>
                   )}
                 </div>
-                
+
                 <div className="space-y-2">
-                  <Label htmlFor="currentPassword" className="text-sm">{t("currentPassword")}</Label>
+                  <Label htmlFor="currentPassword" className="text-sm">
+                    {t("currentPassword")}
+                  </Label>
                   <Input
                     id="currentPassword"
                     type="password"
                     value={emailChangeData.currentPassword}
-                    onChange={(e) => handleEmailInputChange("currentPassword", e.target.value)}
+                    onChange={(e) =>
+                      handleEmailInputChange("currentPassword", e.target.value)
+                    }
                     placeholder={t("currentPasswordPlaceholder")}
                     disabled={isLoading}
                     className="h-9"
                   />
                   {emailErrors.currentPassword && (
-                    <p className="text-xs text-red-600">{emailErrors.currentPassword}</p>
+                    <p className="text-xs text-red-600">
+                      {emailErrors.currentPassword}
+                    </p>
                   )}
                 </div>
               </div>
-              
+
               <Alert>
                 <IconAlertTriangle className="h-4 w-4" />
                 <AlertDescription className="text-xs">
                   {t("emailChangeRequestedMessage")}
                 </AlertDescription>
               </Alert>
-              
+
               <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
-                <Button type="submit" disabled={isLoading} size="sm" className="h-8 px-3 text-sm flex-1 sm:flex-none">
-                  {isLoading ? "Requesting..." : t("changeEmail")}
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  size="sm"
+                  className="h-8 px-3 text-sm flex-1 sm:flex-none"
+                >
+                  {isLoading ? t("requesting") : t("changeEmail")}
                 </Button>
                 <Button
                   type="button"

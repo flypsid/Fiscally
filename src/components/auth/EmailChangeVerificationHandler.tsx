@@ -61,7 +61,7 @@ export function EmailChangeVerificationHandler() {
         
         // Rediriger vers le profil après un délai
         setTimeout(() => {
-          router.push(locale === "fr" ? "/fr/tableau-de-bord/profile" : "/en/dashboard/profile");
+          router.push(locale === "fr" ? "/fr/tableau-de-bord/profil" : "/en/dashboard/profile");
         }, 3000);
       } catch (error) {
         console.error("Email change verification error:", error);
@@ -95,7 +95,7 @@ export function EmailChangeVerificationHandler() {
               </p>
               <div className="space-y-2">
                 <Button asChild className="w-full">
-                  <Link href={locale === "fr" ? "/fr/tableau-de-bord/profile" : "/en/dashboard/profile"}>
+                  <Link href={locale === "fr" ? "/fr/tableau-de-bord/profil" : "/en/dashboard/profile"}>
                     {t("goToProfile")}
                   </Link>
                 </Button>
@@ -121,7 +121,7 @@ export function EmailChangeVerificationHandler() {
                 {t("emailChangeExpiredMessage")}
               </p>
               <Button asChild className="w-full">
-                <Link href={locale === "fr" ? "/fr/tableau-de-bord/profile" : "/en/dashboard/profile"}>
+                <Link href={locale === "fr" ? "/fr/tableau-de-bord/profil" : "/en/dashboard/profile"}>
                   {t("goToProfile")}
                 </Link>
               </Button>
@@ -143,7 +143,7 @@ export function EmailChangeVerificationHandler() {
               </p>
               <div className="space-y-2">
                 <Button asChild className="w-full">
-                  <Link href={locale === "fr" ? "/fr/tableau-de-bord/profile" : "/en/dashboard/profile"}>
+                  <Link href={locale === "fr" ? "/fr/tableau-de-bord/profil" : "/en/dashboard/profile"}>
                     {t("goToProfile")}
                   </Link>
                 </Button>

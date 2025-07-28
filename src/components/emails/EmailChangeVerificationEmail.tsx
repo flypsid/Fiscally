@@ -5,6 +5,7 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Section,
@@ -60,6 +61,11 @@ export const EmailChangeVerificationEmail = ({
       <Body style={main}>
         <Container style={container}>
           <Section style={logoContainer}>
+            <Img
+              src="https://res.cloudinary.com/dvc22eldv/image/upload/v1753544352/logo_zq36nx.png"
+              alt="Fiscally Logo"
+              style={logoImage}
+            />
             <Text style={logo}>Fiscally</Text>
           </Section>
           <Heading style={h1}>{t.title}</Heading>
@@ -104,6 +110,12 @@ const container = {
 const logoContainer = {
   textAlign: "center" as const,
   margin: "0 0 40px",
+};
+
+const logoImage = {
+  height: "40px",
+  width: "auto",
+  marginBottom: "8px",
 };
 
 const logo = {

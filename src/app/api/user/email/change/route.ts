@@ -5,13 +5,17 @@ import type { Session, User } from "better-auth/types";
 import { db } from "@/db/drizzle";
 import { user, verification } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { sendEmailChangeVerification } from "@/lib/email";
+import {
+  sendEmailChangeVerification,
+  sendEmailChangeNotification,
+  getLocaleFromRequest,
+} from "@/lib/email";
 import { nanoid } from "nanoid";
 
 // Schéma pour la demande de changement d'email
 const changeEmailSchema = z.object({
   newEmail: z.string().email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
+  currentPassword: z.string().min(1, "Current password is required"),
 });
 
 // POST - Demander un changement d'email
@@ -74,9 +78,7 @@ export const POST = withValidationAndAuth(
         .where(eq(user.id, currentUser.id));
 
       // Envoyer l'email de vérification
-      const locale = request.headers.get("accept-language")?.includes("fr")
-        ? "fr"
-        : "en";
+      const locale = getLocaleFromRequest(request);
       const verificationUrl = `${process.env.BETTER_AUTH_URL}/${locale}/verify-email-change?token=${token}`;
 
       await sendEmailChangeVerification({
@@ -88,7 +90,12 @@ export const POST = withValidationAndAuth(
       });
 
       // Envoyer une notification à l'ancien email
-      // TODO: Implémenter l'envoi de notification à l'ancien email
+      await sendEmailChangeNotification({
+        to: currentUser.email,
+        userName: currentUser.name || currentUser.email.split("@")[0],
+        newEmail,
+        locale: locale as "en" | "fr",
+      });
 
       return NextResponse.json(
         {

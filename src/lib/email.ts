@@ -1,6 +1,8 @@
 import { Resend } from "resend";
 import { ForgotPasswordEmail } from "@/components/emails/ForgotPasswordEmail";
 import { EmailVerificationEmail } from "@/components/emails/EmailVerificationEmail";
+import { EmailChangeVerificationEmail } from "@/components/emails/EmailChangeVerificationEmail";
+import { EmailChangeNotificationEmail } from "@/components/emails/EmailChangeNotificationEmail";
 import { render } from "@react-email/render";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -192,9 +194,9 @@ export async function sendEmailChangeVerification({
       hasResendKey: !!process.env.RESEND_API_KEY,
     });
 
-    // Utiliser le template de vérification d'email existant pour le moment
+    // Utiliser le template spécialisé pour la vérification de changement d'email
     const emailHtml = await render(
-      EmailVerificationEmail({ userName, verificationUrl, locale })
+      EmailChangeVerificationEmail({ userName, newEmail, verificationUrl, locale })
     );
 
     console.log("Email change verification HTML rendered successfully");
@@ -237,43 +239,16 @@ export async function sendEmailChangeNotification({
       hasResendKey: !!process.env.RESEND_API_KEY,
     });
 
-    const translations = {
-      en: {
-        title: "Email Address Change Request",
-        greeting: "Hello",
-        message: `A request has been made to change the email address associated with your Fiscally account from ${to} to ${newEmail}.`,
-        security: "If you did not request this change, please contact our support team immediately.",
-        footer: "Best regards,\nThe Fiscally Team",
-      },
-      fr: {
-        title: "Demande de Changement d'Adresse Email",
-        greeting: "Bonjour",
-        message: `Une demande a été faite pour changer l'adresse email associée à votre compte Fiscally de ${to} vers ${newEmail}.`,
-        security: "Si vous n'avez pas demandé ce changement, veuillez contacter notre équipe de support immédiatement.",
-        footer: "Cordialement,\nL'équipe Fiscally",
-      },
-    };
-
-    const t = translations[locale];
-
-    const emailHtml = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <title>${t.title}</title>
-        </head>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h2 style="color: #2563eb;">${t.title}</h2>
-            <p>${t.greeting} ${userName},</p>
-            <p>${t.message}</p>
-            <p style="color: #dc2626; font-weight: bold;">${t.security}</p>
-            <p style="white-space: pre-line;">${t.footer}</p>
-          </div>
-        </body>
-      </html>
-    `;
+    // Utiliser le template React Email pour la notification de changement d'email
+    const emailHtml = await render(
+      EmailChangeNotificationEmail({
+        userName,
+        oldEmail: to,
+        newEmail,
+        supportUrl: `${process.env.NEXT_PUBLIC_APP_URL}/contact`,
+        locale,
+      })
+    );
 
     const { data, error } = await resend.emails.send({
       from: "noreply@deff-fondation.com",
