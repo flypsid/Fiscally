@@ -26,6 +26,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/hooks/useAuth";
+import { useSocialAuth } from "@/hooks/useSocialAuth";
 
 // Schéma de validation pour le profil
 const profileSchema = z.object({
@@ -44,6 +45,7 @@ type EmailChangeFormData = z.infer<typeof emailChangeSchema>;
 export function UserProfile() {
   const t = useTranslations("Dashboard.profile");
   const { user } = useAuth();
+  const { hasSocialAuth } = useSocialAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -474,14 +476,32 @@ export function UserProfile() {
               <div className="space-y-2">
                 <span className="text-sm break-all">{user?.email}</span>
                 {!showEmailChange && !pendingEmail && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowEmailChange(true)}
-                    className="h-7 px-2 mt-2 text-xs w-full"
-                  >
-                    {t("changeEmail")}
-                  </Button>
+                  <>
+                    {hasSocialAuth ? (
+                      <div className="mt-2 space-y-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={true}
+                          className="h-7 px-2 text-xs w-full opacity-50 cursor-not-allowed"
+                        >
+                          {t("changeEmail")}
+                        </Button>
+                        <p className="text-xs text-muted-foreground">
+                          {t("socialAuthEmailChangeDisabled")}
+                        </p>
+                      </div>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowEmailChange(true)}
+                        className="h-7 px-2 mt-2 text-xs w-full"
+                      >
+                        {t("changeEmail")}
+                      </Button>
+                    )}
+                  </>
                 )}
               </div>
             </div>

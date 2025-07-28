@@ -100,7 +100,8 @@
       "failedToRequestEmailChange": "Échec de la demande de changement d'email",
       "emailChangeFailed": "Échec du changement d'email",
       "failedToCancelEmailChange": "Échec de l'annulation du changement d'email",
-      "failedToResendVerification": "Échec du renvoi de la vérification"
+      "failedToResendVerification": "Échec du renvoi de la vérification",
+      "socialAuthEmailChangeDisabled": "Le changement d'email n'est pas disponible pour les comptes connectés via Google ou Discord."
     },
     "usermenu": {
       "account": "Compte",

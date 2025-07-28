@@ -101,7 +101,8 @@
       "failedToRequestEmailChange": "Failed to request email change",
       "emailChangeFailed": "Email change failed",
       "failedToCancelEmailChange": "Failed to cancel email change",
-      "failedToResendVerification": "Failed to resend verification"
+      "failedToResendVerification": "Failed to resend verification",
+      "socialAuthEmailChangeDisabled": "Email change is not available for accounts connected via Google or Discord."
     },
     "usermenu": {
       "account": "Account",
