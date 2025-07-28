@@ -118,6 +118,16 @@ Requête → Middleware → Server Component → Client Component
 - Redirections fluides
 - Messages d'erreur localisés
 
+### ✅ **Sécurité du Changement d'Email** (NOUVEAU)
+- **Vérification du mot de passe** : Confirmation d'identité obligatoire
+- **Tokens sécurisés** : Générés avec `nanoid` (21 caractères)
+- **Expiration automatique** : Tokens valides 24 heures maximum
+- **Double notification** : Nouvelle et ancienne adresse informées
+- **Validation stricte** : Schémas Zod côté client et serveur
+- **Vérification d'unicité** : Empêche l'utilisation d'emails existants
+- **Logs de sécurité** : Traçabilité complète pour audit
+- **Middleware d'authentification** : `withValidationAndAuth` pour toutes les routes API
+
 ## Utilisation Recommandée
 
 ### Pour les Pages Protégées

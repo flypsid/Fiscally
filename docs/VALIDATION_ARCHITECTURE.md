@@ -49,10 +49,25 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+// **NOUVEAU** : Schémas pour le changement d'email
+export const emailChangeSchema = z.object({
+  newEmail: z.string().email("Invalid email address"),
+  currentPassword: z.string().min(1, "Current password is required"),
+});
+
+export const verifyEmailChangeSchema = z.object({
+  token: z.string().min(1, "Token is required"),
+});
+
 // Schémas avec traductions (client)
 export const createLoginSchema = (t: (key: string) => string) => z.object({
   email: z.string().email(t("validation.emailInvalid")),
   password: z.string().min(1, t("validation.passwordRequired")),
+});
+
+export const createEmailChangeSchema = (t: (key: string) => string) => z.object({
+  newEmail: z.string().email(t("validation.emailInvalid")),
+  currentPassword: z.string().min(1, t("validation.passwordRequired")),
 });
 ```
 
@@ -151,6 +166,50 @@ const updateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").optional(),
   email: z.string().email("Invalid email address").optional(),
 });
+
+### 4. **NOUVEAU** : API Routes de Changement d'Email
+
+```typescript
+// app/api/user/email/change/route.ts
+import { emailChangeSchema } from "@/lib/schemas/auth";
+
+// POST - Demander un changement d'email
+export const POST = withValidationAndAuth(
+  emailChangeSchema,
+  async (request, validatedData, session, user) => {
+    const { newEmail, currentPassword } = validatedData;
+    
+    // Vérification du mot de passe actuel
+    const isValidPassword = await auth.api.verifyPassword({
+      password: currentPassword,
+      userId: user.id,
+    });
+    
+    if (!isValidPassword) {
+      return NextResponse.json(
+        { error: "Invalid current password" },
+        { status: 400 }
+      );
+    }
+    
+    // Génération du token et envoi des emails
+    // ...
+  }
+);
+
+// app/api/user/email/verify/route.ts
+import { verifyEmailChangeSchema } from "@/lib/schemas/auth";
+
+// POST - Vérifier le changement d'email
+export const POST = withValidation(
+  verifyEmailChangeSchema,
+  async (request, validatedData) => {
+    const { token } = validatedData;
+    
+    // Validation du token et mise à jour de l'email
+    // ...
+  }
+);
 
 // GET - Récupérer le profil utilisateur
 export const GET = withAuth(async (request, session, user) => {
