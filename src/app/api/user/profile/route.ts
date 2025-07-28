@@ -9,7 +9,6 @@ import { eq } from "drizzle-orm";
 // Schéma pour la mise à jour du profil
 const updateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").optional(),
-  email: z.string().email("Invalid email address").optional(),
   image: z.string().url("Invalid image URL").optional().nullable(),
 });
 
@@ -50,9 +49,6 @@ export const PUT = withValidationAndAuth(
 
       if (validatedData.name !== undefined) {
         updateData.name = validatedData.name;
-      }
-      if (validatedData.email !== undefined) {
-        updateData.email = validatedData.email;
       }
       if (validatedData.image !== undefined) {
         updateData.image = validatedData.image;

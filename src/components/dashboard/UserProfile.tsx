@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { z } from "zod";
-import { IconCamera, IconTrash, IconUser } from "@tabler/icons-react";
+import { IconCamera, IconTrash, IconUser, IconMail, IconAlertTriangle } from "@tabler/icons-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -12,15 +12,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/hooks/useAuth";
 
 // Schéma de validation pour le profil
 const profileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
+});
+
+// Schéma de validation pour le changement d'email
+const emailChangeSchema = z.object({
+  newEmail: z.string().email("Invalid email address"),
+  currentPassword: z.string().min(1, "Current password is required"),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
+type EmailChangeFormData = z.infer<typeof emailChangeSchema>;
 
 export function UserProfile() {
   const t = useTranslations("Dashboard.profile");
@@ -28,12 +35,18 @@ export function UserProfile() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [isLoading, setIsLoading] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState(user?.image || "");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(user?.image || null);
   const [formData, setFormData] = useState<ProfileFormData>({
     name: user?.name || "",
-    email: user?.email || "",
+  });
+  const [emailChangeData, setEmailChangeData] = useState<EmailChangeFormData>({
+    newEmail: "",
+    currentPassword: "",
   });
   const [errors, setErrors] = useState<Partial<ProfileFormData>>({});
+  const [emailErrors, setEmailErrors] = useState<Partial<EmailChangeFormData>>({});
+  const [showEmailChange, setShowEmailChange] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState(user?.pendingEmail || "");
 
   // Générer les initiales pour l'avatar fallback
   const getInitials = (name: string) => {
@@ -91,7 +104,7 @@ export function UserProfile() {
     } catch (error) {
       console.error("Avatar upload error:", error);
       toast.error(t("uploadError"));
-      setAvatarUrl(user?.image || "");
+      setAvatarUrl(user?.image || null);
     } finally {
       setIsLoading(false);
     }
@@ -112,7 +125,7 @@ export function UserProfile() {
         throw new Error(result.error || 'Failed to remove avatar');
       }
       
-      setAvatarUrl("");
+      setAvatarUrl(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -126,7 +139,7 @@ export function UserProfile() {
     }
   };
 
-  // Gérer les changements du formulaire
+  // Gérer les changements du formulaire de profil
   const handleInputChange = (field: keyof ProfileFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     // Effacer l'erreur pour ce champ
@@ -135,7 +148,16 @@ export function UserProfile() {
     }
   };
 
-  // Soumettre le formulaire
+  // Gérer les changements du formulaire de changement d'email
+  const handleEmailInputChange = (field: keyof EmailChangeFormData, value: string) => {
+    setEmailChangeData(prev => ({ ...prev, [field]: value }));
+    // Effacer l'erreur pour ce champ
+    if (emailErrors[field]) {
+      setEmailErrors(prev => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  // Soumettre le formulaire de profil
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     
@@ -146,13 +168,13 @@ export function UserProfile() {
       
       setIsLoading(true);
       
-      // Appeler l'API de mise à jour du profil
+      // Appeler l'API de mise à jour du profil (sans email)
       const response = await fetch("/api/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(validatedData),
+        body: JSON.stringify({ name: validatedData.name }),
       });
       
       if (!response.ok) {
@@ -185,6 +207,112 @@ export function UserProfile() {
     }
   };
 
+  // Soumettre le changement d'email
+  const handleEmailChangeSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    
+    try {
+      // Valider les données
+      const validatedData = emailChangeSchema.parse(emailChangeData);
+      setEmailErrors({});
+      
+      setIsLoading(true);
+      
+      // Appeler l'API de changement d'email
+      const response = await fetch("/api/user/email/change", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(validatedData),
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to request email change");
+      }
+      
+      if (result.success) {
+        toast.success(t("emailChangeRequested"));
+        setPendingEmail(validatedData.newEmail);
+        setShowEmailChange(false);
+        setEmailChangeData({ newEmail: "", currentPassword: "" });
+      } else {
+        throw new Error(result.error || "Email change failed");
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // Erreurs de validation
+        const fieldErrors: Partial<EmailChangeFormData> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            fieldErrors[err.path[0] as keyof EmailChangeFormData] = err.message;
+          }
+        });
+        setEmailErrors(fieldErrors);
+      } else {
+        console.error("Email change error:", error);
+        toast.error(t("emailChangeError"));
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Annuler le changement d'email
+  const handleCancelEmailChange = async () => {
+    try {
+      setIsLoading(true);
+      
+      const response = await fetch("/api/user/email/cancel", {
+        method: "POST",
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to cancel email change");
+      }
+      
+      if (result.success) {
+        toast.success(t("emailChangeCancelled"));
+        setPendingEmail("");
+      }
+    } catch (error) {
+      console.error("Cancel email change error:", error);
+      toast.error("Error cancelling email change");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Renvoyer l'email de vérification
+  const handleResendVerification = async () => {
+    try {
+      setIsLoading(true);
+      
+      const response = await fetch("/api/user/email/resend", {
+        method: "POST",
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to resend verification");
+      }
+      
+      if (result.success) {
+        toast.success(t("emailChangeVerificationSent"));
+      }
+    } catch (error) {
+      console.error("Resend verification error:", error);
+      toast.error("Error resending verification");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-sm mx-auto space-y-4">
       <div>
@@ -205,7 +333,7 @@ export function UserProfile() {
           {/* Section Avatar */}
           <div className="flex flex-col items-center space-y-3">
             <Avatar className="h-16 w-16">
-              <AvatarImage src={avatarUrl} alt={formData.name} />
+              <AvatarImage src={avatarUrl || undefined} alt={formData.name} />
               <AvatarFallback className="text-sm">
                 {formData.name ? getInitials(formData.name) : <IconUser className="h-6 w-6" />}
               </AvatarFallback>
@@ -250,7 +378,7 @@ export function UserProfile() {
           
           <Separator className="my-3" />
           
-          {/* Formulaire */}
+          {/* Formulaire de profil */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-3">
               <div className="space-y-2">
@@ -268,22 +396,6 @@ export function UserProfile() {
                   <p className="text-xs text-red-600">{errors.name}</p>
                 )}
               </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm">{t("email")}</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  placeholder={t("emailPlaceholder")}
-                  disabled={isLoading}
-                  className="h-9"
-                />
-                {errors.email && (
-                  <p className="text-xs text-red-600">{errors.email}</p>
-                )}
-              </div>
             </div>
             
             <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2 pt-2">
@@ -297,7 +409,6 @@ export function UserProfile() {
                 onClick={() => {
                   setFormData({
                     name: user?.name || "",
-                    email: user?.email || "",
                   });
                   setAvatarUrl(user?.image || "");
                   setErrors({});
@@ -309,6 +420,141 @@ export function UserProfile() {
               </Button>
             </div>
           </form>
+        </CardContent>
+      </Card>
+
+      {/* Section Email */}
+      <Card>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <IconMail className="h-4 w-4" />
+            {t("email")}
+          </CardTitle>
+          <CardDescription className="text-sm">
+            Manage your email address securely.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Email actuel */}
+          <div className="space-y-2">
+            <Label className="text-sm">Current Email</Label>
+            <div className="p-3 bg-muted rounded-md">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <span className="text-sm">{user?.email}</span>
+                {!showEmailChange && !pendingEmail && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowEmailChange(true)}
+                    className="h-7 px-2 text-xs w-full sm:w-auto"
+                  >
+                    {t("changeEmail")}
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Email en attente */}
+          {pendingEmail && (
+            <Alert>
+              <IconAlertTriangle className="h-4 w-4" />
+              <AlertDescription>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium">{t("pendingEmailChange")}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("pendingEmailMessage").replace("{email}", pendingEmail)}
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleResendVerification}
+                      disabled={isLoading}
+                      className="h-7 px-2 text-xs"
+                    >
+                      {t("resendVerificationEmail")}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleCancelEmailChange}
+                      disabled={isLoading}
+                      className="h-7 px-2 text-xs"
+                    >
+                      {t("cancelEmailChange")}
+                    </Button>
+                  </div>
+                </div>
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* Formulaire de changement d'email */}
+          {showEmailChange && !pendingEmail && (
+            <form onSubmit={handleEmailChangeSubmit} className="space-y-4">
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <Label htmlFor="newEmail" className="text-sm">{t("newEmail")}</Label>
+                  <Input
+                    id="newEmail"
+                    type="email"
+                    value={emailChangeData.newEmail}
+                    onChange={(e) => handleEmailInputChange("newEmail", e.target.value)}
+                    placeholder={t("newEmailPlaceholder")}
+                    disabled={isLoading}
+                    className="h-9"
+                  />
+                  {emailErrors.newEmail && (
+                    <p className="text-xs text-red-600">{emailErrors.newEmail}</p>
+                  )}
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="currentPassword" className="text-sm">{t("currentPassword")}</Label>
+                  <Input
+                    id="currentPassword"
+                    type="password"
+                    value={emailChangeData.currentPassword}
+                    onChange={(e) => handleEmailInputChange("currentPassword", e.target.value)}
+                    placeholder={t("currentPasswordPlaceholder")}
+                    disabled={isLoading}
+                    className="h-9"
+                  />
+                  {emailErrors.currentPassword && (
+                    <p className="text-xs text-red-600">{emailErrors.currentPassword}</p>
+                  )}
+                </div>
+              </div>
+              
+              <Alert>
+                <IconAlertTriangle className="h-4 w-4" />
+                <AlertDescription className="text-xs">
+                  {t("emailChangeRequestedMessage")}
+                </AlertDescription>
+              </Alert>
+              
+              <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
+                <Button type="submit" disabled={isLoading} size="sm" className="h-8 px-3 text-sm flex-1 sm:flex-none">
+                  {isLoading ? "Requesting..." : t("changeEmail")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setShowEmailChange(false);
+                    setEmailChangeData({ newEmail: "", currentPassword: "" });
+                    setEmailErrors({});
+                  }}
+                  disabled={isLoading}
+                  className="h-8 px-3 text-sm flex-1 sm:flex-none"
+                >
+                  {t("cancel")}
+                </Button>
+              </div>
+            </form>
+          )}
         </CardContent>
       </Card>
     </div>

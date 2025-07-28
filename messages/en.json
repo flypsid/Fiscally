@@ -70,7 +70,21 @@
       "updateError": "Error updating profile",
       "uploadError": "Error uploading image",
       "namePlaceholder": "Your full name",
-      "emailPlaceholder": "your@email.com"
+      "emailPlaceholder": "your@email.com",
+      "changeEmail": "Change Email Address",
+      "newEmail": "New Email Address",
+      "newEmailPlaceholder": "new@email.com",
+      "currentPassword": "Current Password",
+      "currentPasswordPlaceholder": "Your current password",
+      "emailChangeRequested": "Email Change Requested",
+      "emailChangeRequestedMessage": "A verification email has been sent to your new address. Please check your inbox and click the link to confirm the change.",
+      "emailChangeError": "Error changing email",
+      "pendingEmailChange": "Pending Email Change",
+      "pendingEmailMessage": "A change to {email} is pending verification.",
+      "cancelEmailChange": "Cancel Change",
+      "resendVerificationEmail": "Resend Verification Email",
+      "emailChangeVerificationSent": "Verification email resent",
+      "emailChangeCancelled": "Email change cancelled"
     },
     "usermenu": {
       "account": "Account",
@@ -163,8 +177,6 @@
     "verificationLinkExpiredMessage": "Your verification link has expired. Please request a new one.",
     "verificationFailed": "Verification Failed",
     "verificationFailedMessage": "There was an error verifying your email. Please try again or request a new verification link.",
-    "backToLogin": "Back to Login",
-    "sending": "Sending...",
     "pleaseWaitVerifying": "Please wait while we verify your email address.",
     "goToDashboard": "Go to Dashboard",
     "goToHomepage": "Go to Homepage",
@@ -173,6 +185,14 @@
     "sendAnotherEmail": "Send another email",
     "enterNewPasswordDescription": "Enter your new password",
     "failedToSendResetEmail": "Failed to send reset email",
-    "passwordResetEmailSent": "Password reset email sent! Check your inbox."
+    "passwordResetEmailSent": "Password reset email sent! Check your inbox.",
+    "emailChangeVerificationTitle": "Email Change Verification",
+    "emailChangeVerificationDescription": "We're verifying your email change request",
+    "emailChangeSuccess": "Your email address has been changed successfully!",
+    "emailChangeVerified": "Email Verified Successfully",
+    "emailChangeVerifiedSuccess": "Your new email address has been verified and activated. You can now use your new address to sign in.",
+    "emailChangeExpiredMessage": "Your email change verification link has expired. Please request a new change from your profile.",
+    "emailChangeFailedMessage": "An error occurred while verifying your email change. Please try again or contact support.",
+    "goToProfile": "Go to Profile"
   }
 }

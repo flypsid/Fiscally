@@ -4,7 +4,12 @@ import { authClient } from "@/lib/auth-client";
 
 // Infer types from Better Auth
 type Session = typeof authClient.$Infer.Session;
-type User = Session['user'];
+type BaseUser = Session['user'];
+
+// Extend User type to include pendingEmail
+type User = BaseUser & {
+  pendingEmail?: string | null;
+};
 
 interface AuthState {
   user: User | null;

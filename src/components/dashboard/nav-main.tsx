@@ -1,6 +1,8 @@
 "use client"
 
 import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react"
+import { Link } from "@/i18n/navigation"
+import NextLink from "next/link"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -43,14 +45,36 @@ export function NavMain({
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            // Routes définies dans le routing next-intl
+            const definedRoutes = ["/dashboard", "/dashboard/profile"];
+            const isDefinedRoute = definedRoutes.includes(item.url);
+            
+            return (
+              <SidebarMenuItem key={item.title}>
+                {isDefinedRoute ? (
+                  <SidebarMenuButton tooltip={item.title} asChild>
+                    <Link href={item.url as "/dashboard" | "/dashboard/profile"}>
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                ) : item.url === "#" ? (
+                  <SidebarMenuButton tooltip={item.title} disabled>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                ) : (
+                  <SidebarMenuButton tooltip={item.title} asChild>
+                    <NextLink href={item.url}>
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </NextLink>
+                  </SidebarMenuButton>
+                )}
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

@@ -19,8 +19,23 @@ interface SendVerificationEmailParams {
   locale: "en" | "fr";
 }
 
+interface SendEmailChangeVerificationParams {
+  to: string;
+  userName: string;
+  newEmail: string;
+  verificationUrl: string;
+  locale: "en" | "fr";
+}
+
+interface SendEmailChangeNotificationParams {
+  to: string;
+  userName: string;
+  newEmail: string;
+  locale: "en" | "fr";
+}
+
 const getSubject = (
-  type: "forgot-password" | "email-verification",
+  type: "forgot-password" | "email-verification" | "email-change-verification" | "email-change-notification",
   locale: "en" | "fr"
 ) => {
   const subjects = {
@@ -31,6 +46,14 @@ const getSubject = (
     "email-verification": {
       en: "Verify your email address - Fiscally",
       fr: "Vérifiez votre adresse email - Fiscally",
+    },
+    "email-change-verification": {
+      en: "Verify your new email address - Fiscally",
+      fr: "Vérifiez votre nouvelle adresse email - Fiscally",
+    },
+    "email-change-notification": {
+      en: "Email address change request - Fiscally",
+      fr: "Demande de changement d'adresse email - Fiscally",
     },
   };
 
@@ -150,4 +173,126 @@ export function getLocaleFromRequest(request?: Request): "en" | "fr" {
 
   // Si la locale n'est pas trouvée, utiliser 'en' par défaut
   return "en";
+}
+
+// Fonction pour envoyer l'email de vérification du changement d'adresse
+export async function sendEmailChangeVerification({
+  to,
+  userName,
+  newEmail,
+  verificationUrl,
+  locale,
+}: SendEmailChangeVerificationParams) {
+  try {
+    console.log("Starting email change verification send process:", {
+      to,
+      userName,
+      newEmail,
+      locale,
+      hasResendKey: !!process.env.RESEND_API_KEY,
+    });
+
+    // Utiliser le template de vérification d'email existant pour le moment
+    const emailHtml = await render(
+      EmailVerificationEmail({ userName, verificationUrl, locale })
+    );
+
+    console.log("Email change verification HTML rendered successfully");
+
+    const { data, error } = await resend.emails.send({
+      from: "noreply@deff-fondation.com",
+      to: [to],
+      subject: getSubject("email-change-verification", locale),
+      html: emailHtml,
+    });
+
+    if (error) {
+      console.error("Resend API error for email change verification:", error);
+      throw new Error(
+        `Failed to send email change verification: ${JSON.stringify(error)}`
+      );
+    }
+
+    console.log("Email change verification sent successfully:", data?.id);
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error in sendEmailChangeVerification:", error);
+    throw error;
+  }
+}
+
+// Fonction pour envoyer la notification de changement d'email à l'ancienne adresse
+export async function sendEmailChangeNotification({
+  to,
+  userName,
+  newEmail,
+  locale,
+}: SendEmailChangeNotificationParams) {
+  try {
+    console.log("Starting email change notification send process:", {
+      to,
+      userName,
+      newEmail,
+      locale,
+      hasResendKey: !!process.env.RESEND_API_KEY,
+    });
+
+    const translations = {
+      en: {
+        title: "Email Address Change Request",
+        greeting: "Hello",
+        message: `A request has been made to change the email address associated with your Fiscally account from ${to} to ${newEmail}.`,
+        security: "If you did not request this change, please contact our support team immediately.",
+        footer: "Best regards,\nThe Fiscally Team",
+      },
+      fr: {
+        title: "Demande de Changement d'Adresse Email",
+        greeting: "Bonjour",
+        message: `Une demande a été faite pour changer l'adresse email associée à votre compte Fiscally de ${to} vers ${newEmail}.`,
+        security: "Si vous n'avez pas demandé ce changement, veuillez contacter notre équipe de support immédiatement.",
+        footer: "Cordialement,\nL'équipe Fiscally",
+      },
+    };
+
+    const t = translations[locale];
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>${t.title}</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="color: #2563eb;">${t.title}</h2>
+            <p>${t.greeting} ${userName},</p>
+            <p>${t.message}</p>
+            <p style="color: #dc2626; font-weight: bold;">${t.security}</p>
+            <p style="white-space: pre-line;">${t.footer}</p>
+          </div>
+        </body>
+      </html>
+    `;
+
+    const { data, error } = await resend.emails.send({
+      from: "noreply@deff-fondation.com",
+      to: [to],
+      subject: getSubject("email-change-notification", locale),
+      html: emailHtml,
+    });
+
+    if (error) {
+      console.error("Resend API error for email change notification:", error);
+      throw new Error(
+        `Failed to send email change notification: ${JSON.stringify(error)}`
+      );
+    }
+
+    console.log("Email change notification sent successfully:", data?.id);
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error in sendEmailChangeNotification:", error);
+    throw error;
+  }
 }

@@ -69,7 +69,21 @@
       "updateError": "Erreur lors de la mise à jour du profil",
       "uploadError": "Erreur lors du téléchargement de l'image",
       "namePlaceholder": "Votre nom complet",
-      "emailPlaceholder": "votre@email.com"
+      "emailPlaceholder": "votre@email.com",
+      "changeEmail": "Changer l'adresse email",
+      "newEmail": "Nouvelle adresse email",
+      "newEmailPlaceholder": "nouvelle@email.com",
+      "currentPassword": "Mot de passe actuel",
+      "currentPasswordPlaceholder": "Votre mot de passe actuel",
+      "emailChangeRequested": "Changement d'email demandé",
+      "emailChangeRequestedMessage": "Un email de vérification a été envoyé à votre nouvelle adresse. Veuillez vérifier votre boîte de réception et cliquer sur le lien pour confirmer le changement.",
+      "emailChangeError": "Erreur lors du changement d'email",
+      "pendingEmailChange": "Changement d'email en attente",
+      "pendingEmailMessage": "Un changement vers {email} est en attente de vérification.",
+      "cancelEmailChange": "Annuler le changement",
+      "resendVerificationEmail": "Renvoyer l'email de vérification",
+      "emailChangeVerificationSent": "Email de vérification renvoyé",
+      "emailChangeCancelled": "Changement d'email annulé"
     },
     "usermenu": {
       "account": "Compte",
@@ -162,8 +176,6 @@
     "verificationLinkExpiredMessage": "Votre lien de vérification a expiré. Veuillez en demander un nouveau.",
     "verificationFailed": "Échec de la vérification",
     "verificationFailedMessage": "Une erreur s'est produite lors de la vérification de votre email. Veuillez réessayer ou demander un nouveau lien de vérification.",
-    "backToLogin": "Retour à la connexion",
-    "sending": "Envoi en cours...",
     "pleaseWaitVerifying": "Veuillez patienter pendant que nous vérifions votre adresse email.",
     "goToDashboard": "Aller au tableau de bord",
     "goToHomepage": "Aller à la page d'accueil",
@@ -172,6 +184,14 @@
     "sendAnotherEmail": "Envoyer un autre email",
     "enterNewPasswordDescription": "Saisissez votre nouveau mot de passe",
     "failedToSendResetEmail": "Échec de l'envoi de l'email de réinitialisation",
-    "passwordResetEmailSent": "Email de réinitialisation envoyé ! Vérifiez votre boîte de réception."
+    "passwordResetEmailSent": "Email de réinitialisation envoyé ! Vérifiez votre boîte de réception.",
+    "emailChangeVerificationTitle": "Vérification du changement d'email",
+    "emailChangeVerificationDescription": "Nous vérifions votre demande de changement d'adresse email",
+    "emailChangeSuccess": "Votre adresse email a été changée avec succès !",
+    "emailChangeVerified": "Email vérifié avec succès",
+    "emailChangeVerifiedSuccess": "Votre nouvelle adresse email a été vérifiée et activée. Vous pouvez maintenant utiliser votre nouvelle adresse pour vous connecter.",
+    "emailChangeExpiredMessage": "Votre lien de vérification de changement d'email a expiré. Veuillez demander un nouveau changement depuis votre profil.",
+    "emailChangeFailedMessage": "Une erreur s'est produite lors de la vérification de votre changement d'email. Veuillez réessayer ou contacter le support.",
+    "goToProfile": "Aller au profil"
   }
 }

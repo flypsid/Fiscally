@@ -150,15 +150,28 @@ const loginSchema = createLoginSchema(t);
 - **Type Safety**: TypeScript strict, pas de `any`
 - **i18n**: Tous les textes utilisateur via next-intl
 - **Documentation**: Mettre à jour les docs lors des changements
+- **Clés de traduction**: **TOUJOURS** vérifier l'existence des clés dans `messages/en.json` et `messages/fr.json` avant d'en créer de nouvelles. Réutiliser les clés existantes et éviter les doublons
+
+### 🌍 Règles de Traduction (i18n)
+
+- **Vérification obligatoire**: Avant de créer une nouvelle clé de traduction, **TOUJOURS** vérifier si elle existe déjà dans :
+  - `messages/en.json`
+  - `messages/fr.json`
+- **Réutilisation**: Privilégier la réutilisation des clés existantes plutôt que la création de doublons
+- **Recherche**: Utiliser la recherche de code pour identifier les clés similaires (ex: `login`, `email`, `password`, `save`, `cancel`)
+- **Contexte**: Adapter les clés existantes au contexte si nécessaire plutôt que créer des variantes
+- **Nommage**: Respecter la hiérarchie existante (ex: `Auth.validation.emailInvalid` plutôt que créer une nouvelle structure)
+- **Cohérence**: Maintenir la cohérence terminologique à travers l'application
 
 ### 🔧 Workflow de Développement
 
 1. **Avant modification**: Consulter `docs/SECURITY.md` et `docs/VALIDATION_ARCHITECTURE.md`
-2. **Validation**: Créer/utiliser schémas Zod partagés
-3. **API**: Utiliser les middlewares de validation existants
-4. **Auth**: Respecter l'architecture multicouche
-5. **Tests**: Vérifier TypeScript + ESLint
-6. **Documentation**: Mettre à jour si nécessaire
+2. **Traductions**: Vérifier les clés existantes dans les fichiers de traduction
+3. **Validation**: Créer/utiliser schémas Zod partagés
+4. **API**: Utiliser les middlewares de validation existants
+5. **Auth**: Respecter l'architecture multicouche
+6. **Tests**: Vérifier TypeScript + ESLint
+7. **Documentation**: Mettre à jour si nécessaire
 
 ### 📁 Structure de Fichiers à Respecter
 
