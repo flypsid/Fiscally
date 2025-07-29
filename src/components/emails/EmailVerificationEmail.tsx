@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-head-element */
 import * as React from "react";
+import Head from "next/head";
 
 interface EmailVerificationEmailProps {
   userName: string;
@@ -15,6 +15,8 @@ const translations = {
     message:
       "Thank you for signing up for Fiscally! Please verify your email address by clicking the button below:",
     buttonText: "Verify Email",
+    alternativeText:
+      "If the button doesn't work, you can copy and paste this link into your browser:",
     expiry: "This link will expire in 24 hours.",
     noRequest: "If you didn't create an account, please ignore this email.",
     footer: "Best regards,\nThe Fiscally Team",
@@ -26,6 +28,8 @@ const translations = {
     message:
       "Merci de vous être inscrit sur Fiscally ! Veuillez vérifier votre adresse email en cliquant sur le bouton ci-dessous :",
     buttonText: "Vérifier l'email",
+    alternativeText:
+      "Si le bouton ne fonctionne pas, vous pouvez copier et coller ce lien dans votre navigateur :",
     expiry: "Ce lien expirera dans 24 heures.",
     noRequest: "Si vous n'avez pas créé de compte, veuillez ignorer cet email.",
     footer: "Cordialement,\nL'équipe Fiscally",
@@ -41,11 +45,11 @@ export function EmailVerificationEmail({
 
   return (
     <html>
-      <head>
+      <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{t.subject}</title>
-      </head>
+      </Head>
       <body
         style={{
           fontFamily:
@@ -153,6 +157,47 @@ export function EmailVerificationEmail({
                 }}
               >
                 {t.buttonText}
+              </a>
+            </div>
+
+            {/* Alternative link section */}
+            <div
+              style={{
+                backgroundColor: "#f8fafc",
+                border: "1px solid #e2e8f0",
+                borderRadius: "6px",
+                padding: "16px",
+                margin: "24px 0",
+                fontSize: "14px",
+                color: "#64748b",
+              }}
+            >
+              <p
+                style={{
+                  margin: "0 0 8px 0",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  color: "#475569",
+                }}
+              >
+                {t.alternativeText}
+              </p>
+              <a
+                href={verificationUrl}
+                style={{
+                  color: "#3b82f6",
+                  fontSize: "12px",
+                  textDecoration: "none",
+                  wordBreak: "break-all" as const,
+                  fontFamily: "monospace",
+                  backgroundColor: "#ffffff",
+                  padding: "8px",
+                  borderRadius: "4px",
+                  border: "1px solid #e2e8f0",
+                  display: "block",
+                }}
+              >
+                {verificationUrl}
               </a>
             </div>
 

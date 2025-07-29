@@ -1,15 +1,5 @@
-import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Img,
-  Preview,
-  Section,
-  Text,
-} from "@react-email/components";
+import * as React from "react";
+import Head from "next/head";
 
 interface EmailChangeNotificationEmailProps {
   userName: string;
@@ -72,169 +62,268 @@ export const EmailChangeNotificationEmail = ({
     translations[locale as keyof typeof translations] || translations.en;
 
   return (
-    <Html>
-      <Head />
-      <Preview>{t.preview}</Preview>
-      <Body style={main}>
-        <Container style={container}>
-          <Section style={logoContainer}>
-            <Img
+    <html>
+      <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{t.preview}</title>
+      </Head>
+      <body
+        style={{
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          lineHeight: "1.6",
+          color: "#333333",
+          backgroundColor: "#f8f9fa",
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "600px",
+            margin: "0 auto",
+            backgroundColor: "#ffffff",
+            borderRadius: "8px",
+            overflow: "hidden",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          {/* Header */}
+          <div
+            style={{
+              backgroundColor: "#1f2937",
+              padding: "32px 24px",
+              textAlign: "center" as const,
+              display: "flex",
+              flexDirection: "column" as const,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="https://res.cloudinary.com/dvc22eldv/image/upload/v1753544352/logo_zq36nx.png"
               alt="Fiscally Logo"
-              style={logoImage}
+              style={{
+                height: "40px",
+                width: "auto",
+                marginBottom: "8px",
+                display: "block",
+                margin: "0 auto 8px auto",
+              }}
             />
-            <Text style={logo}>Fiscally</Text>
-          </Section>
-          <Heading style={h1}>{t.title}</Heading>
-          <Text style={text}>
-            {t.greeting} {userName},
-          </Text>
-          <Text style={text}>{t.message1}</Text>
+            <h1
+              style={{
+                color: "#ffffff",
+                fontSize: "24px",
+                fontWeight: "bold",
+                margin: 0,
+                textAlign: "center" as const,
+              }}
+            >
+              Fiscally
+            </h1>
+          </div>
 
-          <Section style={emailContainer}>
-            <Text style={emailLabel}>{t.oldEmailLabel}</Text>
-            <Text style={emailText}>{oldEmail}</Text>
-            <Text style={emailLabel}>{t.newEmailLabel}</Text>
-            <Text style={emailText}>{newEmail}</Text>
-          </Section>
+          {/* Content */}
+          <div
+            style={{
+              padding: "32px 24px",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "20px",
+                fontWeight: "600",
+                color: "#1f2937",
+                marginBottom: "16px",
+              }}
+            >
+              {t.title}
+            </h2>
 
-          <Text style={text}>{t.message2}</Text>
+            <p
+              style={{
+                fontSize: "16px",
+                marginBottom: "16px",
+              }}
+            >
+              {t.greeting} {userName},
+            </p>
 
-          <Section style={warningContainer}>
-            <Text style={warningText}>{t.message3}</Text>
-          </Section>
+            <p
+              style={{
+                fontSize: "16px",
+                marginBottom: "16px",
+              }}
+            >
+              {t.message1}
+            </p>
 
-          <Section style={buttonContainer}>
-            <Button style={button} href={supportUrl}>
-              {t.buttonText}
-            </Button>
-          </Section>
+            <div
+              style={{
+                backgroundColor: "#f3f4f6",
+                borderRadius: "8px",
+                padding: "16px",
+                margin: "16px 0",
+              }}
+            >
+              <p
+                style={{
+                  color: "#6b7280",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  margin: "8px 0 4px 0",
+                }}
+              >
+                {t.oldEmailLabel}
+              </p>
+              <p
+                style={{
+                  color: "#1f2937",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  margin: "0 0 12px 0",
+                }}
+              >
+                {oldEmail}
+              </p>
+              <p
+                style={{
+                  color: "#6b7280",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  margin: "8px 0 4px 0",
+                }}
+              >
+                {t.newEmailLabel}
+              </p>
+              <p
+                style={{
+                  color: "#1f2937",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  margin: "0 0 12px 0",
+                }}
+              >
+                {newEmail}
+              </p>
+            </div>
 
-          <Text style={text}>{t.message4}</Text>
-          <Text style={recommendationText}>{t.recommendation1}</Text>
-          <Text style={recommendationText}>{t.recommendation2}</Text>
-          <Text style={recommendationText}>{t.recommendation3}</Text>
+            <p
+              style={{
+                fontSize: "16px",
+                marginBottom: "16px",
+              }}
+            >
+              {t.message2}
+            </p>
 
-          <Text style={footer}>{t.footer}</Text>
-        </Container>
-      </Body>
-    </Html>
+            <div
+              style={{
+                backgroundColor: "#fef3c7",
+                borderLeft: "4px solid #f59e0b",
+                borderRadius: "4px",
+                padding: "16px",
+                margin: "24px 0",
+              }}
+            >
+              <p
+                style={{
+                  color: "#92400e",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  margin: "0",
+                }}
+              >
+                {t.message3}
+              </p>
+            </div>
+
+            <div
+              style={{
+                textAlign: "center" as const,
+                margin: "32px 0",
+              }}
+            >
+              <a
+                href={supportUrl}
+                style={{
+                  backgroundColor: "#dc2626",
+                  borderRadius: "8px",
+                  color: "#ffffff",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  textDecoration: "none",
+                  textAlign: "center" as const,
+                  display: "inline-block",
+                  padding: "12px 24px",
+                }}
+              >
+                {t.buttonText}
+              </a>
+            </div>
+
+            <p
+              style={{
+                fontSize: "16px",
+                marginBottom: "16px",
+              }}
+            >
+              {t.message4}
+            </p>
+
+            <p
+              style={{
+                color: "#374151",
+                fontSize: "14px",
+                lineHeight: "20px",
+                margin: "4px 0",
+              }}
+            >
+              {t.recommendation1}
+            </p>
+
+            <p
+              style={{
+                color: "#374151",
+                fontSize: "14px",
+                lineHeight: "20px",
+                margin: "4px 0",
+              }}
+            >
+              {t.recommendation2}
+            </p>
+
+            <p
+              style={{
+                color: "#374151",
+                fontSize: "14px",
+                lineHeight: "20px",
+                margin: "4px 0",
+              }}
+            >
+              {t.recommendation3}
+            </p>
+
+            <p
+              style={{
+                color: "#6b7280",
+                fontSize: "14px",
+                lineHeight: "24px",
+                margin: "32px 0 0",
+                textAlign: "center" as const,
+                whiteSpace: "pre-line" as const,
+              }}
+            >
+              {t.footer}
+            </p>
+          </div>
+        </div>
+      </body>
+    </html>
   );
-};
-
-const main = {
-  backgroundColor: "#ffffff",
-  fontFamily:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-};
-
-const container = {
-  margin: "0 auto",
-  padding: "20px 0 48px",
-  maxWidth: "560px",
-};
-
-const logoContainer = {
-  textAlign: "center" as const,
-  margin: "0 0 40px",
-};
-
-const logoImage = {
-  height: "40px",
-  width: "auto",
-  marginBottom: "8px",
-};
-
-const logo = {
-  fontSize: "32px",
-  fontWeight: "bold",
-  color: "#1f2937",
-  textDecoration: "none",
-  margin: "0",
-};
-
-const h1 = {
-  color: "#1f2937",
-  fontSize: "24px",
-  fontWeight: "bold",
-  textAlign: "center" as const,
-  margin: "30px 0",
-};
-
-const text = {
-  color: "#374151",
-  fontSize: "16px",
-  lineHeight: "26px",
-  margin: "16px 0",
-};
-
-const emailContainer = {
-  backgroundColor: "#f3f4f6",
-  borderRadius: "8px",
-  padding: "16px",
-  margin: "16px 0",
-};
-
-const emailLabel = {
-  color: "#6b7280",
-  fontSize: "14px",
-  fontWeight: "600",
-  margin: "8px 0 4px 0",
-};
-
-const emailText = {
-  color: "#1f2937",
-  fontSize: "16px",
-  fontWeight: "500",
-  margin: "0 0 12px 0",
-};
-
-const warningContainer = {
-  backgroundColor: "#fef3c7",
-  borderLeft: "4px solid #f59e0b",
-  borderRadius: "4px",
-  padding: "16px",
-  margin: "24px 0",
-};
-
-const warningText = {
-  color: "#92400e",
-  fontSize: "16px",
-  fontWeight: "500",
-  margin: "0",
-};
-
-const buttonContainer = {
-  textAlign: "center" as const,
-  margin: "32px 0",
-};
-
-const button = {
-  backgroundColor: "#dc2626",
-  borderRadius: "8px",
-  color: "#ffffff",
-  fontSize: "16px",
-  fontWeight: "bold",
-  textDecoration: "none",
-  textAlign: "center" as const,
-  display: "inline-block",
-  padding: "12px 24px",
-};
-
-const recommendationText = {
-  color: "#374151",
-  fontSize: "14px",
-  lineHeight: "20px",
-  margin: "4px 0",
-};
-
-const footer = {
-  color: "#6b7280",
-  fontSize: "14px",
-  lineHeight: "24px",
-  margin: "32px 0 0",
-  textAlign: "center" as const,
-  whiteSpace: "pre-line" as const,
 };
 
 export default EmailChangeNotificationEmail;
